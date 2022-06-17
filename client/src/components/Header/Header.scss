@@ -1,0 +1,29 @@
+@import '../../sass/variables.scss';
+
+.Header {
+    height: $header-height;
+    padding: 0 $page-margin;
+
+    background-color: $color-grey-80;
+
+    &__content {
+        max-width: $grid-width;
+        margin: 0 auto;
+
+        height: 100%;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__title {
+        font-size: 2.4rem;
+        font-weight: 700;
+        line-height: 1;
+
+        text-transform: uppercase;
+
+        color: $color-white;
+    }
+}

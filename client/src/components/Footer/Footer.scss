@@ -1,0 +1,21 @@
+@import '../../sass/variables.scss';
+
+.Footer {    
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+
+    text-align: center;
+
+    color: $color-white;
+    background-color: $color-grey-80;
+
+    padding: .8rem $page-margin;
+
+    &__link {
+        &:link, &:visited {
+            text-decoration: none;
+
+            color: $color-white;
+        }
+    }
+}

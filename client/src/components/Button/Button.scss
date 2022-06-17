@@ -1,0 +1,54 @@
+@import '../../sass/variables.scss';
+
+.Button {
+    &, &:link, &:visited {
+        display: inline-block;
+
+        font-size: 2rem;
+        line-height: 2.4rem;
+
+        text-decoration: none;
+        text-transform: uppercase;
+
+        color: $color-white;
+        background-color: $color-primary;
+        
+        border: none;
+        border-radius: .2rem;
+
+        padding: .8rem 1.6rem;
+
+        cursor: pointer;
+        transition: all .1s;
+    }
+
+    &:hover {
+        background-color: darken($color-primary, 7%);
+    }
+
+    &--with-icon {
+        &, &:link, &:visited {
+            display: inline-flex;
+            align-items: center;
+            gap: .8rem;
+        }
+    }
+
+    &__icon {
+        width: 1.6rem;
+        height: 1.6rem;
+
+        position: relative;
+
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            fill: $color-white;
+        }
+    }
+}

@@ -1,0 +1,17 @@
+@import '../../sass/variables.scss';
+
+.Page {
+    width: 100%;
+    min-height: 100vh;
+
+    margin: 0 auto;
+
+    background-color: $color-white;
+
+    display: flex;
+    flex-direction: column;
+
+    &__content {
+        flex: 2;
+    }
+}

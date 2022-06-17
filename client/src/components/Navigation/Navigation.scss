@@ -1,0 +1,23 @@
+@import '../../sass/variables.scss';
+
+.Navigation {
+    display: flex;
+    gap: 2.4rem;
+
+    &__link {
+        &:link, &:visited {
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 2.4rem;
+
+            text-transform: uppercase;
+            text-decoration: none;
+
+            color: $color-white;
+        }
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

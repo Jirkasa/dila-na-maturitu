@@ -1,0 +1,36 @@
+@import '../../sass/variables.scss';
+
+.Home {
+
+    &__intro-section {
+        height: calc(100vh - #{$header-height});
+
+        background-color: $color-grey-20;
+
+        background-image: url("../../../public/img/intro-image.jpg");
+        background-size: cover;
+        background-position: center;
+
+        padding: 0 $page-margin;
+
+        display: grid;
+        grid-template-columns: 1fr repeat(12, minmax(0, $grid-column-width)) 1fr;
+        align-items: center;
+        gap: $grid-gutter;
+    }
+
+    &__intro-section-content {
+        grid-column: 2 / span 6;
+    }
+
+    &__intro-headline {
+        font-size: 4rem;
+        font-weight: 700;
+        line-height: 4.4rem;
+
+        text-transform: uppercase;
+        color: $color-grey-80;
+
+        margin-bottom: 3.2rem;
+    }
+}
