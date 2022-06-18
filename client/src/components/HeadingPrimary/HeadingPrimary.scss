@@ -1,0 +1,11 @@
+@import '../../sass/variables.scss';
+
+.HeadingPrimary {
+    font-size: 3.2rem;
+    font-weight: 700;
+    line-height: 3.2rem;
+
+    text-transform: uppercase;
+
+    color: $color-grey-80;
+}

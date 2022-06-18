@@ -21,3 +21,7 @@ $grid-width: 112rem;
 $grid-column-width: 6.4rem;
 $grid-gutter: 3.2rem;
 $page-margin: 3.2rem;
+
+
+// GRID
+$column-grid-12: repeat(12, minmax(0, $grid-column-width));

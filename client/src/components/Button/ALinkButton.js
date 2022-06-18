@@ -1,10 +1,9 @@
 import './Button.scss';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 import config from '../../config';
 
-function LinkButton(props) {
+function ALinkButton(props) {
     const { iconName } = props;
 
     const cssClasses = props.smallText ? "Button--small-text" : "";
@@ -12,19 +11,19 @@ function LinkButton(props) {
     // If icon name is specified, display button with icon
     if (iconName) {
         return (
-            <Link to={props.to} className={`Button Button--with-icon ${cssClasses}`}>
+            <a href={props.to} target="_blank" className={`Button Button--with-icon ${cssClasses}`}>
                 <div className='Button__icon'>
                     <svg>
                         <use xlinkHref={`${config.ICON_SPRITE_PATH}#${iconName}`}></use>
                     </svg>
                 </div>
                 <span>{props.children}</span>
-            </Link>
+            </a>
         );
     }
 
     // display button (without icon)
-    return <Link to={props.to} className={`Button ${cssClasses}`}>{props.children}</Link>;
+    return <a href={props.to} target="_blank" className={`Button ${cssClasses}`}>{props.children}</a>;
 }
 
-export default LinkButton;
+export default ALinkButton;

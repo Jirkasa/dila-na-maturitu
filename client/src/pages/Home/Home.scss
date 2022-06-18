@@ -14,7 +14,7 @@
         padding: 0 $page-margin;
 
         display: grid;
-        grid-template-columns: 1fr repeat(12, minmax(0, $grid-column-width)) 1fr;
+        grid-template-columns: 1fr $column-grid-12 1fr;
         align-items: center;
         gap: $grid-gutter;
     }
@@ -32,5 +32,45 @@
         color: $color-grey-80;
 
         margin-bottom: 3.2rem;
+    }
+
+    &__section {
+        padding: 0 $page-margin;
+
+        > div {
+            display: grid;
+            grid-template-columns: $column-grid-12;
+            gap: $grid-gutter;
+
+            max-width: $grid-width;
+            margin: 0 auto;
+        }
+    }
+    
+    &__section-content {
+        grid-column: span 8;
+
+        padding: $page-margin 0;
+    }
+
+    &__videos-section {
+        background-color: $color-grey-20;
+
+        padding: $page-margin;
+    }
+
+    &__videos-section-content {
+        max-width: $grid-width;
+        margin: 0 auto;
+    }
+
+    &__intro-text {
+        display: grid;
+        grid-template-columns: $column-grid-12;
+        gap: $grid-gutter;
+
+        > p {
+            grid-column: 3 / span 8;
+        }
     }
 }

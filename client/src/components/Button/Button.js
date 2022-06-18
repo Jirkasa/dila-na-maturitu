@@ -6,10 +6,12 @@ import config from '../../config';
 function Button(props) {
     const { iconName } = props;
 
+    const cssClasses = props.smallText ? "Button--small-text" : "";
+
     // If icon name is specified, display button with icon
     if (iconName) {
         return (
-            <button onClick={props.onClick} className="Button Button--with-icon">
+            <button onClick={props.onClick} className={`Button Button--with-icon ${cssClasses}`}>
                 <div className='Button__icon'>
                     <svg>
                         <use xlinkHref={`${config.ICON_SPRITE_PATH}#${iconName}`}></use>
@@ -21,7 +23,7 @@ function Button(props) {
     }
 
     // display button (without icon)
-    return <button onClick={props.onClick} className='Button'>{props.children}</button>;
+    return <button onClick={props.onClick} className={`Button ${cssClasses}`}>{props.children}</button>;
 }
 
 export default Button;
