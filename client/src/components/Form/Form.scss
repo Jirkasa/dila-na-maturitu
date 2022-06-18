@@ -1,0 +1,11 @@
+@import '../../sass/variables.scss';
+
+.Form {
+    display: grid;
+    grid-template-columns: $column-grid-8;
+    gap: $grid-gutter;
+
+    form {
+        grid-column: 2 / span 6;
+    }
+}

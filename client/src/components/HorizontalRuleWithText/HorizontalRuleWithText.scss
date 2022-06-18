@@ -1,0 +1,24 @@
+@import '../../sass/variables.scss';
+
+.HorizontalRuleWithText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .8rem;
+
+    &__text {
+        font-size: 1.6rem;
+        font-weight: 700;
+        line-height: 1;
+
+        text-transform: uppercase;
+
+        color: $color-grey-20;
+
+        user-select: none;
+    }
+
+    > hr {
+        flex-grow: 2;
+    }
+}

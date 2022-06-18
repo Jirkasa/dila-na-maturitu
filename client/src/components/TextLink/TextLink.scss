@@ -1,0 +1,13 @@
+@import '../../sass/variables.scss';
+
+.TextLink {
+    &:link, &:visited {
+        text-decoration: none;
+
+        color: $color-secondary-dark;
+    }
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

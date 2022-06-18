@@ -6,7 +6,9 @@ import config from '../../config';
 function Button(props) {
     const { iconName } = props;
 
-    const cssClasses = props.smallText ? "Button--small-text" : "";
+    let cssClasses = "";
+    cssClasses = props.smallText ? "Button--small-text" : cssClasses;
+    cssClasses = props.fullWidth ? " Button--full-width" : cssClasses;
 
     // If icon name is specified, display button with icon
     if (iconName) {

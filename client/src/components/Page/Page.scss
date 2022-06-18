@@ -13,5 +13,10 @@
 
     &__content {
         flex: 2;
+
+        &--flex {
+            display: flex;
+            flex-direction: column;
+        }
     }
 }

@@ -8,7 +8,7 @@ function Page(props) {
     return (
         <div className='Page'>
             <Header/>
-            <div className='Page__content'>
+            <div className={`Page__content ${props.flex ? "Page__content--flex" : ""}`}>
                 {props.children}
             </div>
             <Footer/>

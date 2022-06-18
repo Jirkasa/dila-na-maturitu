@@ -4,6 +4,7 @@
     &, &:link, &:visited {
         display: inline-block;
 
+        font-family: inherit;
         font-size: 2rem;
         line-height: 2.4rem;
 
@@ -37,6 +38,12 @@
     &--small-text {
         &, &:link, &:visited {
             font-size: 1.6rem;
+        }
+    }
+
+    &--full-width {
+        &, &:link, &:visited {
+            width: 100%;
         }
     }
 
