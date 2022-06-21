@@ -1,0 +1,45 @@
+@import '../../sass/variables.scss';
+
+.UserNavButton {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+
+    background-color: transparent;
+    border: none;
+    color: $color-white;
+
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 2.4rem;
+
+    cursor: pointer;
+
+    &__user-icon {
+        width: 2rem;
+        height: 2rem;
+
+        svg {
+            width: 100%;
+            height: 100%;
+            fill: $color-white;
+        }
+    }
+
+    &__dropdown-icon {
+        width: 1.6rem;
+        height: 2rem;
+
+        transition: all cubic-bezier(.78,.39,.21,1.59) .2s;
+
+        svg {
+            width: 100%;
+            height: 100%;
+            fill: $color-white;
+        }
+
+        &--rotated {
+            transform: scaleY(-1);
+        }
+    }
+}

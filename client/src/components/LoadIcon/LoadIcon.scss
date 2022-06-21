@@ -1,0 +1,21 @@
+@import '../../sass/variables.scss';
+
+.LoadIcon {
+    width: 16rem;
+    height: 16rem;
+
+    margin: 0 auto;
+
+    &--small {
+        width: 4rem;
+        height: 4rem;
+    }
+
+    svg {
+        width: 100%;
+        height: 100%;
+        fill: $color-primary;
+
+        animation: rotate 2s 0s linear infinite;
+    }
+}

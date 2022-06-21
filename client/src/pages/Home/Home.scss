@@ -13,14 +13,20 @@
 
         padding: 0 $page-margin;
 
-        display: grid;
-        grid-template-columns: 1fr $column-grid-12 1fr;
-        align-items: center;
-        gap: $grid-gutter;
+        > div {
+            height: 100%;
+            display: grid;
+            grid-template-columns: $column-grid-12;
+            align-items: center;
+            gap: $grid-gutter;
+
+            margin: 0 auto;
+            max-width: $grid-width;
+        }
     }
 
     &__intro-section-content {
-        grid-column: 2 / span 6;
+        grid-column: 1 / span 6;
     }
 
     &__intro-headline {

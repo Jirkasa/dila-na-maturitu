@@ -1,0 +1,42 @@
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%; /* 1rem = 10px */
+}
+
+body {
+    box-sizing: border-box;
+}
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.load-icon {
+    width: 8rem;
+    height: 8rem;
+}
+
+.load-icon img {
+    width: 100%;
+    height: 100%;
+    animation: rotate 2.5s 0s linear infinite;
+}
+
+#access-token, #refresh-token, #user { display: none; }

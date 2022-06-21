@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 
 function ButtonSecondary(props) {
     return (
-        <Link to={props.to} className="ButtonSecondary">
+        <a href={props.to} className="ButtonSecondary">
             <div className='ButtonSecondary__icon'>
                 <img src={props.iconPath}/>
             </div>
             <span>{props.children}</span>
-        </Link>
+        </a>
     );
 }
 

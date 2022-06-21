@@ -13,3 +13,7 @@ body {
 
     font-family: 'Open Sans', sans-serif;
 }
+
+.ReactCollapse--collapse {
+    transition: height .2s;
+}

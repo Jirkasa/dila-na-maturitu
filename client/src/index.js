@@ -1,4 +1,5 @@
 import './sass/base.scss';
+import './sass/animations.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

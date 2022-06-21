@@ -1,0 +1,14 @@
+@import '../../sass/variables.scss';
+
+.IllustrativeIcon {
+    width: 16rem;
+    height: 16rem;
+
+    margin: 0 auto;
+
+    svg {
+        width: 100%;
+        height: 100%;
+        fill: $color-grey-40;
+    }
+}

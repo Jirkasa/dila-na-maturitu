@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/google-authentication.css">
+
+    <title>Document</title>
+</head>
+<body>
+    <div id="access-token">{{ accessToken }}</div>
+    <div id="refresh-token">{{ refreshToken }}</div>
+    <div id="user">{{ user }}</div>
+    <div class="page">
+        <div class="load-icon">
+            <img src="/spinner.svg"/>
+        </div>
+    </div>
+
+    <script>
+        const accessToken = document.getElementById("access-token").innerText;
+        const refreshToken = document.getElementById("refresh-token").innerText;
+        const user = document.getElementById("user").innerText;
+        localStorage.setItem("DilaNaMaturitu_AccessToken", `Bearer ${accessToken}`);
+        localStorage.setItem("DilaNaMaturitu_RefreshToken", `Bearer ${refreshToken}`);
+        localStorage.setItem("DilaNaMaturitu_User", user);
+        window.location.href = "/";
+    </script>
+</body>
+</html>
