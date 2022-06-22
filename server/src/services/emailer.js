@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-// const sendinBlue = require('nodemailer-sendinblue-transport');
 
 const transporter = nodemailer.createTransport({
     service: "SendinBlue",
@@ -8,9 +7,6 @@ const transporter = nodemailer.createTransport({
         pass: process.env.SMTP_KEY
     }
 });
-// const transporter = nodemailer.createTransport(sendinBlue({
-//     apiKey: process.env.SMTP_KEY
-// }));
 
 
 function sendVerificationEmail(email, verificationToken) {
@@ -20,7 +16,7 @@ function sendVerificationEmail(email, verificationToken) {
         subject: "Ověření účtu na webu Díla na maturitu",
         html: `
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="cs">
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,6 +36,34 @@ function sendVerificationEmail(email, verificationToken) {
     });
 }
 
+function sendResetPasswordEmail(email, token) {
+    return transporter.sendMail({
+        from: "reset-hesla@dila-na-maturitu.cz",
+        to: email,
+        subject: "Reset hesla k účtu na webu Díla na maturitu",
+        html: `
+        <!DOCTYPE html>
+        <html lang="cs">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+            <title>Díla na maturitu - reset hesla</title>
+        </head>
+        <body>
+            <div style="font-family: 'Open Sans', sans-serif; padding: 16px; background-color: #fff; text-align: center;">
+                <h1 style="font-size: 24px; margin: 0; margin-bottom: 8px; text-transform: uppercase; color: #322E2D;">Reset hesla</h1>
+                <hr style="border: none; height: 4px; margin: 0; margin-bottom: 8px; background-color: #EBE4E3;">
+                <p style="font-size: 16px; line-height: 24px; color: #726A69; margin-bottom: 16px;">Zažádal jsi o reset hesla. Kliknutím na následující odkaz si můžeš vytvořit nové heslo. Pokud jsi o reset hesla nezažádal, tak tento email ignoruj.</p>
+                <a href="${process.env.SERVER_URL}/reset-hesla/${token}" style="display: inline-block; padding: 8px 16px; font-size: 16px; border-radius: 2px; background-color: #E65950; color: #fff; text-transform: uppercase; text-decoration: none;">Vytvořit nové heslo</a>
+            </div>
+        </body>
+        </html>
+        `
+    });
+}
+
 module.exports = {
-    sendVerificationEmail
+    sendVerificationEmail,
+    sendResetPasswordEmail
 }

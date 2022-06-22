@@ -52,6 +52,7 @@ router.post("/register", [
         }
     }),
     body("password")
+    .trim()
     .isLength({min: 1}).withMessage("Nezadal jsi heslo")
     .isLength({min: 6}).withMessage("Heslo musí být dlouhé alespoň 6 znaků")
     .isLength({max: 255}).withMessage("Heslo může být dlouhé maximálně 255 znaků")
@@ -59,6 +60,20 @@ router.post("/register", [
 router.post("/token", controller.postToken);
 router.get("/google-login", controller.getGoogleLogin);
 router.get("/google-login/callback", controller.getGoogleLoginCallback, controller.getGoogleLoginLoadPage);
+router.post("/forgot-password", [
+    body("email")
+    .trim()
+    .isLength({min: 1}).withMessage("Nezadal jsi email")
+    .isLength({max: 320}).withMessage("Maximální počet znaků emailu je 320")
+], controller.postForgotPassword);
+router.get("/check-reset-token", controller.getCheckResetToken);
+router.post("/reset-password", [
+    body("password")
+    .trim()
+    .isLength({min: 1}).withMessage("Nezadal jsi heslo")
+    .isLength({min: 6}).withMessage("Heslo musí být dlouhé alespoň 6 znaků")
+    .isLength({max: 255}).withMessage("Heslo může být dlouhé maximálně 255 znaků")
+], controller.postResetPassword);
 // router.get("/test", (req, res) => {
 //     console.log(req.user);
 //     res.status(200).json(req.user);

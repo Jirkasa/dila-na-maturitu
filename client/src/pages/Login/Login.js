@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
@@ -84,7 +83,7 @@ function Login() {
                     }
                     <VerticalSpace size={2}/>
                     <RightAlignedText>
-                        <Paragraph bottomMargin={4}><TextLink to="/">Zapomněl jsi heslo?</TextLink></Paragraph>
+                        <Paragraph bottomMargin={4}><TextLink to="/zapomenute-heslo">Zapomněl jsi heslo?</TextLink></Paragraph>
                     </RightAlignedText>
                 </Form>
                 <HorizontalRule bottomMargin={4}/>

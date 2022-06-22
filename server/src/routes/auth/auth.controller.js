@@ -11,6 +11,7 @@ const helpers = require("../../helpers");
 const RefreshToken = require('../../models/refreshToken.model');
 const VerificationToken = require('../../models/verificationToken.model');
 const emailer = require('../../services/emailer');
+const ResetPasswordToken = require('../../models/resetPasswordToken');
 
 
 passport.use(new JwtStrategy({
@@ -218,6 +219,103 @@ async function getGoogleLoginLoadPage(req, res) {
     }
 }
 
+async function postForgotPassword(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            error: "Validation failed",
+            errors: errors.mapped()
+        });
+    }
+
+    const email = req.body.email;
+
+    const user = await User.findOne({
+        where: {
+            email: email
+        }
+    });
+    if (!user) return res.status(404).json({ error: "Uživatel s tímto emailem neexistuje." });
+
+    const token = helpers.generateResetPasswordToken({ id: user.id });
+    await ResetPasswordToken.create({
+        token: token,
+        userId: user.id
+    });
+    try {
+        emailer.sendResetPasswordEmail(user.email, token);
+    } catch(err) {
+        console.log(err);
+    }
+    res.status(204).json({});
+}
+
+async function getCheckResetToken(req, res) {
+    const token = req.query.token;
+    if (!token) return res.status(400).json({});
+
+    const resetToken = await ResetPasswordToken.findOne({
+        where: {
+            token: token
+        }
+    });
+
+    if (!resetToken) return res.status(404).json({});
+
+    jwt.verify(token, process.env.RESET_PASSWORD_TOKEN_SECRET, (err, user) => {
+        if (err) {
+            resetToken.destroy();
+            return res.status(404).json({});
+        }
+        return res.status(204).json({});
+    });
+}
+
+async function postResetPassword(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            error: "Validation failed",
+            errors: errors.mapped()
+        });
+    }
+
+    const password = req.body.password;
+    const token = req.body.token;
+
+    if (!token) return res.status(400).json({ error: "Nebyl předán reset token." });
+
+    const resetToken = await ResetPasswordToken.findOne({
+        where: {
+            token: token
+        }
+    });
+
+    if (!resetToken) return res.status(403).json({ error: "Heslo již nejde resetovat. Pošli si novou žádost o reset hesla." });
+
+    jwt.verify(token, process.env.RESET_PASSWORD_TOKEN_SECRET, async (err, user) => {
+        if (err) {
+            resetToken.destroy();
+            return res.status(403).json({ error: "Heslo již nejde resetovat. Pošli si novou žádost o reset hesla." });
+        }
+
+        try {
+            const hashedPassword = await bcrypt.hash(password, 12);
+            await User.update({
+                password: hashedPassword
+            }, {
+                where: {
+                    id: user.id
+                }
+            });
+            await resetToken.destroy();
+            return res.status(204).json({});
+        } catch(err) {
+            return res.status(500).json({ error: "Při vytváření nového hesla došlo k chybě." });
+        }
+    });
+}
+
 module.exports = {
     postLogin,
     postLogout,
@@ -225,5 +323,8 @@ module.exports = {
     postToken,
     getGoogleLogin,
     getGoogleLoginCallback,
-    getGoogleLoginLoadPage
+    getGoogleLoginLoadPage,
+    postForgotPassword,
+    getCheckResetToken,
+    postResetPassword
 }

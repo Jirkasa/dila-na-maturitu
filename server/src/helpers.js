@@ -8,7 +8,12 @@ function generateRefreshToken(user) {
     return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '14d' });
 }
 
+function generateResetPasswordToken(user) {
+    return jwt.sign(user, process.env.RESET_PASSWORD_TOKEN_SECRET, {expiresIn: '15m'});
+}
+
 module.exports = {
     generateAccessToken,
-    generateRefreshToken
+    generateRefreshToken,
+    generateResetPasswordToken
 }

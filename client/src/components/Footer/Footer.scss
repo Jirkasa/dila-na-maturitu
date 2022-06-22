@@ -15,7 +15,10 @@
         &:link, &:visited {
             text-decoration: none;
 
-            color: $color-white;
+            color: $color-tertiary;
+        }
+        &:hover {
+            text-decoration: underline;
         }
     }
 }
