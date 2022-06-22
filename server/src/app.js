@@ -1,6 +1,7 @@
 const path = require("path");
 
 const express = require("express");
+const verificationRouter = require("./routes/verification/verification.router");
 const api = require("./routes/api");
 
 const app = express();
@@ -22,6 +23,7 @@ if (process.env.DEV_MODE === "true") {
 }
 
 app.use('/v1', api);
+app.use(verificationRouter);
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));

@@ -1,5 +1,8 @@
+const crypto = require('crypto');
 const { validationResult } = require("express-validator");
-const User = require("../../models/user.model")
+const User = require("../../models/user.model");
+const VerificationToken = require("../../models/verificationToken.model");
+const emailer = require("../../services/emailer");
 
 
 async function getUserById(req, res) {
@@ -73,8 +76,48 @@ async function patchUsername(req, res) {
     }})
 }
 
+async function postResendVerificationToken(req, res) {
+    const verificationToken = await VerificationToken.findOne({
+        where: {
+            userId: req.user.id
+        }
+    });
+
+    if (!verificationToken) {
+        crypto.randomBytes(32, async (err, buffer) => {
+            if (err) return res.status(500).json({})
+            
+            let verifyToken;
+            try {
+                verifyToken = buffer.toString('hex');
+                await VerificationToken.create({
+                    token: verifyToken,
+                    userId: req.user.id
+                });
+                res.status(204).json({});
+            } catch(err) {
+                return res.status(500).json({});
+            }
+    
+            try {
+                emailer.sendVerificationEmail(req.user.email, verifyToken);
+            } catch(err) {
+                console.log(err);
+            }
+        });
+    } else {
+        try {
+            emailer.sendVerificationEmail(req.user.email, verificationToken.token);
+        } catch(err) {
+            console.log(err);
+        }
+        res.status(204).json({});
+    }
+}
+
 module.exports = {
     getUserById,
     getUserByEmail,
-    patchUsername
+    patchUsername,
+    postResendVerificationToken
 }

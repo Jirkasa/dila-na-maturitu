@@ -25,5 +25,6 @@ router.patch("/username", [
         }
     })
 ], requireUserAuth, controller.patchUsername);
+router.post("/resend-verification-token", requireUserAuth, controller.postResendVerificationToken);
 
 module.exports = router;

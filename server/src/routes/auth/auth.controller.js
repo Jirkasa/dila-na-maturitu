@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
@@ -8,6 +9,8 @@ const User = require('../../models/user.model');
 const jwt = require("jsonwebtoken");
 const helpers = require("../../helpers");
 const RefreshToken = require('../../models/refreshToken.model');
+const VerificationToken = require('../../models/verificationToken.model');
+const emailer = require('../../services/emailer');
 
 
 passport.use(new JwtStrategy({
@@ -130,19 +133,35 @@ async function postRegister(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
-    try {
-        const hashedPassword = await bcrypt.hash(password, 12);
-        // TODO - ještě vytvořit verification token a ten poslat na email, ale zatím to nechám takto
-        await User.create({
-            email: email,
-            username: username,
-            password: hashedPassword,
-            authProvider: "password"
-        });
-        res.status(201).json({});
-    } catch(e) {
-        res.status(500).json({ error: "Registrace se nezdařila" });
-    }
+    crypto.randomBytes(32, async (err, buffer) => {
+        if (err) return res.status(500).json({ error: "Registrace se nezdařila" })
+        
+        let verifyToken;
+        try {
+            const hashedPassword = await bcrypt.hash(password, 12);
+            const user = await User.create({
+                email: email,
+                username: username,
+                password: hashedPassword,
+                authProvider: "password"
+            });
+
+            verifyToken = buffer.toString('hex');
+            await VerificationToken.create({
+                token: verifyToken,
+                userId: user.id
+            });
+            res.status(201).json({});
+        } catch(err) {
+            return res.status(500).json({ error: "Registrace se nezdařila" });
+        }
+
+        try {
+            emailer.sendVerificationEmail(email, verifyToken);
+        } catch(err) {
+            console.log(err);
+        }
+    });
 }
 
 async function postToken(req, res) {

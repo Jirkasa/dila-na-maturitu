@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import LoadPage from '../pages/LoadPage/LoadPage';
 import CreateUsername from '../pages/CreateUsername/CreateUsername';
+import AccountVerification from '../pages/AccountVerification/AccountVerification';
 
 const AuthContext = React.createContext();
 
@@ -117,7 +118,9 @@ export function AuthProvider(props) {
     if (loading) {
         pageToRender = <LoadPage/>;
     } else if (currentUser && !currentUser.username && window.location.pathname !== "/odhlaseni") {
-        pageToRender = <CreateUsername/>
+        pageToRender = <CreateUsername/>;
+    } else if (currentUser && !currentUser.verified) {
+        pageToRender = <AccountVerification/>;
     } else {
         pageToRender = props.children;
     }
