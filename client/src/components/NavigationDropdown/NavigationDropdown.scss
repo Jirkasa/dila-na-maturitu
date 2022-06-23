@@ -34,6 +34,10 @@
                 margin-bottom: .8rem;
             }
         }
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     &__link-icon {
