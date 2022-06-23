@@ -238,8 +238,9 @@ async function postForgotPassword(req, res) {
     if (!user) return res.status(404).json({ error: "Uživatel s tímto emailem neexistuje." });
 
     const token = helpers.generateResetPasswordToken({ id: user.id });
+    const hashedToken = await bcrypt.hash(token, 12);
     await ResetPasswordToken.create({
-        token: token,
+        token: hashedToken,
         userId: user.id
     });
     try {
@@ -254,19 +255,19 @@ async function getCheckResetToken(req, res) {
     const token = req.query.token;
     if (!token) return res.status(400).json({});
 
-    const resetToken = await ResetPasswordToken.findOne({
-        where: {
-            token: token
-        }
-    });
-
-    if (!resetToken) return res.status(404).json({});
-
-    jwt.verify(token, process.env.RESET_PASSWORD_TOKEN_SECRET, (err, user) => {
+    jwt.verify(token, process.env.RESET_PASSWORD_TOKEN_SECRET, async (err, user) => {
         if (err) {
-            resetToken.destroy();
             return res.status(404).json({});
         }
+
+        const resetToken = await ResetPasswordToken.findOne({
+            where: {
+                userId: user.id
+            }
+        });
+    
+        if (!resetToken) return res.status(404).json({});
+
         return res.status(204).json({});
     });
 }
@@ -285,21 +286,23 @@ async function postResetPassword(req, res) {
 
     if (!token) return res.status(400).json({ error: "Nebyl předán reset token." });
 
-    const resetToken = await ResetPasswordToken.findOne({
-        where: {
-            token: token
-        }
-    });
-
-    if (!resetToken) return res.status(403).json({ error: "Heslo již nejde resetovat. Pošli si novou žádost o reset hesla." });
-
     jwt.verify(token, process.env.RESET_PASSWORD_TOKEN_SECRET, async (err, user) => {
         if (err) {
-            resetToken.destroy();
             return res.status(403).json({ error: "Heslo již nejde resetovat. Pošli si novou žádost o reset hesla." });
         }
 
         try {
+            const resetToken = await ResetPasswordToken.findOne({
+                where: {
+                    userId: user.id
+                }
+            });
+        
+            if (!resetToken) return res.status(403).json({ error: "Heslo již nejde resetovat. Pošli si novou žádost o reset hesla." });
+
+            const tokenDoMatch = await bcrypt.compare(token, resetToken.token);
+            if (!tokenDoMatch) return res.status(403).json({ error: "Heslo již nejde resetovat. Pošli si novou žádost o reset hesla." });
+
             const hashedPassword = await bcrypt.hash(password, 12);
             await User.update({
                 password: hashedPassword
