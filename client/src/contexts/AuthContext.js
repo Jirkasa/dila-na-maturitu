@@ -119,7 +119,7 @@ export function AuthProvider(props) {
         pageToRender = <LoadPage/>;
     } else if (currentUser && !currentUser.username && window.location.pathname !== "/odhlaseni") {
         pageToRender = <CreateUsername/>;
-    } else if (currentUser && !currentUser.verified) {
+    } else if (currentUser && !currentUser.verified && window.location.pathname !== "/odhlaseni") {
         pageToRender = <AccountVerification/>;
     } else {
         pageToRender = props.children;

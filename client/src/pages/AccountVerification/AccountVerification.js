@@ -26,6 +26,15 @@ function AccountVerification() {
             setNewTokenSent(true);
             setLoading(false);
         } catch(err) {
+            if (err.response.status === 409) {
+                try {
+                    const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/${auth.currentUser.id}`, auth.getHeaderConfig());
+                    auth.updateCurrentUser(res.data.user);
+                } catch(err) {
+                    setIsError(true);
+                }
+                return;
+            }
             setIsError(true);
             setLoading(false);
         }

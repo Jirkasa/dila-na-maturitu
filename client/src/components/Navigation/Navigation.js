@@ -17,7 +17,7 @@ function Navigation() {
             {
                 auth.currentUser
                 ? (
-                    auth.currentUser.username
+                    (auth.currentUser.username && auth.currentUser.verified)
                     ? <UserNavButton opened={dropdownOpened} toogleDropdown={toogleDropdown}>{auth.currentUser.username}</UserNavButton>
                     : <Link to="/odhlaseni" onClick={auth.forceUpdate} className='Navigation__link'>Odhlásit se</Link>
                 )

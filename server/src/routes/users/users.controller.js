@@ -77,6 +77,8 @@ async function patchUsername(req, res) {
 }
 
 async function postResendVerificationToken(req, res) {
+    if (req.user.verified) return res.status(409).json({});
+
     const verificationToken = await VerificationToken.findOne({
         where: {
             userId: req.user.id
