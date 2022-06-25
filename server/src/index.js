@@ -2,7 +2,8 @@ const http = require("http");
 
 require('dotenv').config();
 const app = require('./app');
-const ResetPasswordToken = require("./models/resetPasswordToken");
+const Material = require("./models/material.model");
+const ResetPasswordToken = require("./models/resetPasswordToken.model");
 const User = require("./models/user.model");
 const VerificationToken = require("./models/verificationToken.model");
 const sequelize = require('./services/database');
@@ -23,6 +24,13 @@ User.hasOne(ResetPasswordToken, {
     foreignKey: {
         allowNull: false
     }
+});
+User.hasMany(Material, {
+    onDelete: "CASCADE",
+    foreignKey: 'materialAuthorId'
+});
+Material.belongsTo(User, {
+    foreignKey: "materialAuthorId"
 });
 
 async function startServer() {

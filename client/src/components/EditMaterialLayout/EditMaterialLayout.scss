@@ -1,0 +1,23 @@
+@import '../../sass/variables.scss';
+
+.EditMaterialLayout {
+    margin: 0 auto;
+    max-width: $grid-width;
+
+    display: grid;
+    grid-template-columns: $column-grid-12;
+    gap: $grid-gutter;
+
+    &__left-side {
+        grid-column: 1 / span 7;
+    }
+
+    &__right-side {
+        grid-column: 8 / span 5;
+    }
+
+    &__options {
+        position: sticky;
+        top: 1.6rem;
+    }
+}

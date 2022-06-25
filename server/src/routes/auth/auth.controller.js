@@ -11,7 +11,7 @@ const helpers = require("../../helpers");
 const RefreshToken = require('../../models/refreshToken.model');
 const VerificationToken = require('../../models/verificationToken.model');
 const emailer = require('../../services/emailer');
-const ResetPasswordToken = require('../../models/resetPasswordToken');
+const ResetPasswordToken = require('../../models/resetPasswordToken.model');
 
 
 passport.use(new JwtStrategy({

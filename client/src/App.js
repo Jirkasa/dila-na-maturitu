@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import CreateMaterial from './pages/CreateMaterial/CreateMaterial';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
@@ -7,6 +8,7 @@ import Logout from './pages/Logout/Logout';
 import PasswordReset from './pages/PasswordReset/PasswordReset';
 import Registration from './pages/Registration/Registration';
 import NoUser from './route-guards/NoUser';
+import RequireAuth from './route-guards/RequireAuth';
 
 // todo - create not found page
 function App() {
@@ -37,6 +39,11 @@ function App() {
 				}/>
 				<Route exact path="/reset-hesla/:token" element={
 					<PasswordReset/>
+				}/>
+				<Route exact path="/vytvoreni-materialu" element={
+					<RequireAuth>
+						<CreateMaterial/>
+					</RequireAuth>
 				}/>
 			</Routes>
 		</AuthProvider>

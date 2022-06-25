@@ -1,0 +1,16 @@
+@import '../../sass/variables.scss';
+
+.CheckableOption {
+
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+
+    &__label {
+        font-size: 1.6rem;
+        font-weight: 600;
+        line-height: 2rem;
+
+        color: $color-primary-dark;
+    }
+}

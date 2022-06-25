@@ -1,0 +1,25 @@
+@import '../../sass/variables.scss';
+
+.TextArea {
+    display: block;
+
+    font-family: inherit;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+
+    width: 100%;
+    resize: vertical;
+    min-height: 8rem;
+    max-height: 80rem;
+    max-width: 100%;
+
+    color: $color-grey-80;
+    background-color: $color-grey-20;
+
+    border: none;
+    border-radius: .2rem;
+
+    padding: .8rem;
+
+    outline-color: $color-grey-60;
+}
