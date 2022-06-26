@@ -1,0 +1,26 @@
+@import '../../sass/variables.scss';
+
+.PageLayoutLeft {
+    padding: 0 3.2rem;
+
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+
+    > div {
+        display: grid;
+        grid-template-columns: $column-grid-12;
+        gap: $grid-gutter;
+        
+        max-width: $grid-width;
+        margin: 0 auto;
+
+        flex-grow: 2;
+    }
+
+    &__content {
+        grid-column: span 10;
+
+        padding: 3.2rem 0;
+    }
+}

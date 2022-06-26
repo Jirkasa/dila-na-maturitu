@@ -60,8 +60,6 @@ function CreateMaterial() {
                 }
             }
 
-            console.log(materialData);
-
             await axios.post(`${process.env.REACT_APP_API_URL}/materials`, {
                 title: title,
                 author: author,

@@ -1,0 +1,64 @@
+@import '../../sass/variables.scss';
+
+.SearchBar {
+    max-width: 73.6rem;
+    flex-grow: 2;
+
+    display: flex;
+    align-items: center;
+
+    &__input {
+        flex: 2;
+
+        font-family: inherit;
+        font-size: 1.6rem;
+        line-height: 2.4rem;
+
+        border: none;
+        border-top-left-radius: .2rem;
+        border-bottom-left-radius: .2rem;
+        
+        background-color: $color-grey-20;
+
+        padding: .8rem 1.2rem;
+
+        outline-color: $color-grey-60;
+        outline-offset: -.1rem;
+
+        &::placeholder {
+            color: $color-grey-60;
+        }
+    }
+
+    &__button {
+        width: 4rem;
+        height: 4rem;
+
+        font-size: 0;
+
+        background-color: $color-secondary;
+
+        border: none;
+        border-top-right-radius: .2rem;
+        border-bottom-right-radius: .2rem;
+
+        position: relative;
+
+        cursor: pointer;
+
+        svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 2rem;
+            height: 2rem;
+            fill: $color-white;
+        }
+
+        &:hover {
+            background-color: darken($color-secondary, 7%);
+        }
+    }
+}

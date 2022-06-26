@@ -1,0 +1,36 @@
+@import '../../sass/variables.scss';
+
+.PaginationButton {
+    font-family: inherit;
+    font-size: 2rem;
+    line-height: 2rem;
+
+    min-width: 4rem;
+
+    border: .2rem solid $color-primary;
+    border-radius: .2rem;
+
+    padding: .8rem;
+
+    color: $color-primary;
+    background-color: transparent;
+
+    transition: all .1s;
+    cursor: pointer;
+
+    &--active, &:hover {
+        color: $color-white;
+        background-color: $color-primary;
+    }
+
+    &:disabled {
+        cursor: default;
+        color: $color-grey-60;
+        border-color: $color-grey-60;
+
+        &:hover {
+            color: $color-grey-60;
+            background-color: transparent;
+        }
+    }
+}

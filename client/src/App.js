@@ -5,6 +5,7 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Logout from './pages/Logout/Logout';
+import Materials from './pages/Materials/Materials';
 import PasswordReset from './pages/PasswordReset/PasswordReset';
 import Registration from './pages/Registration/Registration';
 import NoUser from './route-guards/NoUser';
@@ -44,6 +45,9 @@ function App() {
 					<RequireAuth>
 						<CreateMaterial/>
 					</RequireAuth>
+				}/>
+				<Route exact path="/materialy" element={
+					<Materials/>
 				}/>
 			</Routes>
 		</AuthProvider>

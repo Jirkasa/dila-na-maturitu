@@ -8,4 +8,8 @@
     text-transform: uppercase;
 
     color: $color-secondary-dark;
+
+    &--red {
+        color: $color-primary-dark;
+    }
 }

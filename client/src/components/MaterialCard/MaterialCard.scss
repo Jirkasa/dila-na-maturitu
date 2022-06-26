@@ -1,0 +1,65 @@
+@import '../../sass/variables.scss';
+
+.MaterialCard {
+    background-color: $color-grey-20;
+
+    border-radius: .2rem;
+
+    margin-bottom: 1.6rem;
+
+    display: flex;
+
+    &__main-side {
+        padding: 2.4rem;
+        flex: 2;
+    }
+
+    &__options-side {
+        background-color: $color-grey-80;
+
+        padding: 2.4rem;
+        padding-left: 4rem + 2.4rem;
+
+        clip-path: polygon(4rem 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    &__buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 2.4rem;
+    }
+
+    &__author {
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 2rem;
+
+        color: $color-secondary-dark;
+    }
+
+    hr {
+        border: none;
+
+        background-color: $color-grey-40;
+
+        height: .4rem;
+
+        margin-bottom: 1.6rem;
+    }
+
+    &__material-author-text {
+        font-size: 1.6rem;
+        font-weight: 700;
+        line-height: 1.6rem;
+
+        text-transform: uppercase;
+
+        color: $color-grey-80;
+    }
+
+    &__material-author {
+        font-weight: 400;
+
+        text-transform: none;
+    }
+}

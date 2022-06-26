@@ -1,0 +1,44 @@
+@import '../../sass/variables.scss';
+
+.Pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: .8rem;
+
+    &__move-button {
+        width: 4rem;
+        height: 4rem;
+
+        border: none;
+        border-radius: .2rem;
+
+        background-color: $color-secondary;
+
+        position: relative;
+
+        cursor: pointer;
+
+        svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 2.4rem;
+            height: 2.4rem;
+
+            fill: $color-white;
+        }
+
+        &:hover {
+            background-color: darken($color-secondary, 7%);
+        }
+
+        &:disabled {
+            background-color: $color-grey-40;
+            cursor: default;
+        }
+    }
+}

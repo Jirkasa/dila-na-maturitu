@@ -1,6 +1,8 @@
 const { validationResult } = require("express-validator");
-const { ValidMaterialPartNames } = require("../../helpers");
+const { Op } = require("sequelize");
+const { ValidMaterialPartNames, getPagination } = require("../../helpers");
 const Material = require("../../models/material.model");
+const User = require("../../models/user.model");
 
 async function postMaterials(req, res) {
     const errors = validationResult(req);
@@ -124,6 +126,69 @@ async function postMaterials(req, res) {
     return res.status(201).json({});
 }
 
+async function getMaterials(req, res) {
+    const searchText = req.query.search || "";
+
+    const rowCount = await Material.count({
+        where: {
+            [Op.or]: [
+                {
+                    title: {
+                        [Op.like]: `${searchText}%`
+                    }
+                },
+                {
+                    author: {
+                        [Op.like]: `${searchText}%`
+                    }
+                }
+            ]
+        }
+    });
+    const pagination = await getPagination(req.query, rowCount);
+
+    try {
+        const materials = await Material.findAll({
+            attributes: ["id", "title", "author"],
+            offset: pagination.skip,
+            limit: pagination.limit,
+            where: {
+                [Op.or]: [
+                    {
+                        title: {
+                            [Op.like]: `${searchText}%`
+                        }
+                    },
+                    {
+                        author: {
+                            [Op.like]: `${searchText}%`
+                        }
+                    }
+                ]
+            },
+            include: [{
+                model: User,
+                attributes: ["username"]
+            }],
+            order: [
+                ["title", "ASC"],
+                ["id", "ASC"] // this is needed because if more rows have same title, they can appear twice in more pages
+            ],
+            raw: true
+        });
+        return res.status(200).json({
+            materials: materials,
+            page: pagination.page,
+            pageSize: pagination.limit,
+            pageCount: pagination.pageCount
+        });
+    } catch(err) {
+        console.log(err);
+        return res.status(500).json({});
+    }
+}
+
 module.exports = {
-    postMaterials
+    postMaterials,
+    getMaterials
 }

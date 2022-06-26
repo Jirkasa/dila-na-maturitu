@@ -1,0 +1,10 @@
+.CenteredFlexRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.6rem;
+
+    &--small-gap {
+        gap: .8rem;
+    }
+}
