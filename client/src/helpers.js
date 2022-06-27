@@ -138,7 +138,7 @@ export function convertMaterialForEditation(material) {
         for (let j = 0; j < defaultMaterialSetup[i].content.length; j++) {
             const materialPart = material[i].content[j];
             const defaultMaterialSetupPart = defaultMaterialSetup[i].content[j];
-            if (materialPart.name !== defaultMaterialSetupPart.name) {
+            if (!materialPart || materialPart.name !== defaultMaterialSetupPart.name) {
                 const part = defaultMaterialSetupPart;
                 part.checked = false;
                 material[i].content.splice(j, 0, part);

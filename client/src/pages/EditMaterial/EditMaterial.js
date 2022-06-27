@@ -92,8 +92,9 @@ function EditMaterial() {
                 const mat = res.data.material;
                 console.log(mat);
 
-                if (mat["user.id"] !== auth.currentUser.id) setAccessDenied(true);
+                if (mat["user.id"] !== auth.currentUser.id) return setAccessDenied(true);
                 
+                console.log(JSON.parse(res.data.material.materialData));
                 const materialData = convertMaterialForEditation(JSON.parse(res.data.material.materialData));
 
                 setTitle(mat.title);
@@ -101,6 +102,7 @@ function EditMaterial() {
                 setMaterial(materialData);
                 setMaterialLoading(false);
             } catch(err) {
+                console.log(err);
                 if (err?.response?.status === 404) setNotFound(true);
                 setIsError(true);
             }
