@@ -7,6 +7,7 @@ const User = require('../../models/user.model');
 const router = express.Router();
 
 router.get("/email", requireUserAuth, controller.getUserByEmail);
+router.get("/:id/materials", requireUserAuth, controller.getMaterials);
 router.get("/:id", requireUserAuth, controller.getUserById);
 router.patch("/username", [
     query("username")

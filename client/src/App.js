@@ -7,6 +7,7 @@ import Login from './pages/Login/Login';
 import Logout from './pages/Logout/Logout';
 import Material from './pages/Material/Material';
 import Materials from './pages/Materials/Materials';
+import MyMaterials from './pages/MyMaterials/MyMaterials';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import PasswordReset from './pages/PasswordReset/PasswordReset';
 import Registration from './pages/Registration/Registration';
@@ -50,6 +51,11 @@ function App() {
 				}/>
 				<Route exact path="/materialy" element={
 					<Materials/>
+				}/>
+				<Route exact path="/moje-materialy" element={
+					<RequireAuth>
+						<MyMaterials/>
+					</RequireAuth>
 				}/>
 				<Route exact path="/material/:materialId" element={
 					<Material/>

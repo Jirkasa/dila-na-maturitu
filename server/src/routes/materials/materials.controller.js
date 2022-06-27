@@ -131,22 +131,28 @@ async function postMaterials(req, res) {
 async function getMaterials(req, res) {
     const searchText = req.query.search || "";
 
-    const rowCount = await Material.count({
-        where: {
-            [Op.or]: [
-                {
-                    title: {
-                        [Op.like]: `${searchText}%`
+    let rowCount;
+    try {
+        rowCount = await Material.count({
+            where: {
+                [Op.or]: [
+                    {
+                        title: {
+                            [Op.like]: `${searchText}%`
+                        }
+                    },
+                    {
+                        author: {
+                            [Op.like]: `${searchText}%`
+                        }
                     }
-                },
-                {
-                    author: {
-                        [Op.like]: `${searchText}%`
-                    }
-                }
-            ]
-        }
-    });
+                ]
+            }
+        });
+    } catch(err) {
+        return res.status(500).json({});
+    }
+
     const pagination = await getPagination(req.query, rowCount);
 
     try {

@@ -1,8 +1,11 @@
 const crypto = require('crypto');
 const { validationResult } = require("express-validator");
+const Material = require('../../models/material.model');
 const User = require("../../models/user.model");
 const VerificationToken = require("../../models/verificationToken.model");
 const emailer = require("../../services/emailer");
+const { Op } = require("sequelize");
+const { getPagination } = require('../../helpers');
 
 
 async function getUserById(req, res) {
@@ -49,6 +52,75 @@ async function getUserByEmail(req, res) {
         }});
     } catch(err) {
         res.status(500).json({});
+    }
+}
+
+async function getMaterials(req, res) {
+    const id = +req.params.id;
+    if (id !== req.user.id) return res.status(403).json({});
+
+    const searchText = req.query.search || "";
+
+
+    let rowCount;
+    try {
+        rowCount = await Material.count({
+            where: {
+                materialAuthorId: req.user.id,
+                [Op.or]: [
+                    {
+                        title: {
+                            [Op.like]: `${searchText}%`
+                        }
+                    },
+                    {
+                        author: {
+                            [Op.like]: `${searchText}%`
+                        }
+                    }
+                ]
+            }
+        });
+    } catch(err) {
+        return res.status(500).json({});
+    }
+
+    const pagination = await getPagination(req.query, rowCount);
+
+    try {
+        const materials = await Material.findAll({
+            attributes: ["id", "title", "author"],
+            offset: pagination.skip,
+            limit: pagination.limit,
+            where: {
+                materialAuthorId: req.user.id,
+                [Op.or]: [
+                    {
+                        title: {
+                            [Op.like]: `${searchText}%`
+                        }
+                    },
+                    {
+                        author: {
+                            [Op.like]: `${searchText}%`
+                        }
+                    }
+                ]
+            },
+            order: [
+                ["title", "ASC"],
+                ["id", "ASC"] // this is needed because if more rows have same title, they can appear twice in more pages
+            ],
+            raw: true
+        });
+        return res.status(200).json({
+            materials: materials,
+            page: pagination.page,
+            pageSize: pagination.limit,
+            pageCount: pagination.pageCount
+        });
+    } catch(err) {
+        return res.status(500).json({});
     }
 }
 
@@ -120,6 +192,7 @@ async function postResendVerificationToken(req, res) {
 module.exports = {
     getUserById,
     getUserByEmail,
+    getMaterials,
     patchUsername,
     postResendVerificationToken
 }
