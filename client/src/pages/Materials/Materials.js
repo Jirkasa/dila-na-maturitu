@@ -81,6 +81,7 @@ function Materials() {
     const materialCards = materials.map(mat => (
         <MaterialCard
             key={mat.id}
+            id={mat.id}
             title={mat.title}
             author={mat.author}
             materialAuthor={mat["user.username"]}

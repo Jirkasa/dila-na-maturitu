@@ -20,5 +20,6 @@ router.post("/", requireVerifiedUserAuth, [
     .isLength({min: 1}).withMessage("Nebyla předána data materiálu")
 ], controller.postMaterials);
 router.get("/", controller.getMaterials);
+router.get("/:id", controller.getMaterialById);
 
 module.exports = router;

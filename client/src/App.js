@@ -5,7 +5,9 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Logout from './pages/Logout/Logout';
+import Material from './pages/Material/Material';
 import Materials from './pages/Materials/Materials';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import PasswordReset from './pages/PasswordReset/PasswordReset';
 import Registration from './pages/Registration/Registration';
 import NoUser from './route-guards/NoUser';
@@ -17,7 +19,7 @@ function App() {
 		<AuthProvider>
 			<Routes>
 				<Route path="*" element={
-					<div>Not Found</div>
+					<NotFoundPage/>
 				}/>
 				<Route exact path="/" element={
 					<Home/>
@@ -48,6 +50,9 @@ function App() {
 				}/>
 				<Route exact path="/materialy" element={
 					<Materials/>
+				}/>
+				<Route exact path="/material/:materialId" element={
+					<Material/>
 				}/>
 			</Routes>
 		</AuthProvider>

@@ -48,13 +48,13 @@ function Pagination(props) {
 
     return (
         <div className='Pagination'>
-            <button onClick={props.selectPrevPage} disabled={props.activePage === 1} className='Pagination__move-button'>
+            <button onClick={props.selectPrevPage} disabled={props.activePage <= 1} className='Pagination__move-button'>
                 <svg>
                     <use xlinkHref={`${config.ICON_SPRITE_PATH}#icon-arrow-left2`}></use>
                 </svg>
             </button>
             {paginationButtons}
-            <button onClick={props.selectNextPage} disabled={props.activePage === props.pageCount} className='Pagination__move-button'>
+            <button onClick={props.selectNextPage} disabled={props.activePage >= props.pageCount} className='Pagination__move-button'>
                 <svg>
                     <use xlinkHref={`${config.ICON_SPRITE_PATH}#icon-arrow-right2`}></use>
                 </svg>

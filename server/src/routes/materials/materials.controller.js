@@ -76,6 +76,7 @@ async function postMaterials(req, res) {
                         }
                         if (characters.length === 0) continue;
                         partData.characters = characters;
+                        partData.type = "CHARACTERS";
                         break;
                     case "PLOT":
                         if (!part.plot || !(part.plot instanceof Array)) continue;
@@ -88,6 +89,7 @@ async function postMaterials(req, res) {
                         }
                         if (plotParts.length === 0) continue;
                         partData.plot = plotParts;
+                        partData.type = "PLOT";
                         break;
                     default:
                         continue;
@@ -183,12 +185,36 @@ async function getMaterials(req, res) {
             pageCount: pagination.pageCount
         });
     } catch(err) {
-        console.log(err);
+        return res.status(500).json({});
+    }
+}
+
+async function getMaterialById(req, res) {
+    const materialId = +req.params.id;
+    if (typeof materialId !== "number") return res.status(400).json({});
+
+    try {
+        const material = await Material.findOne({
+            attributes: ["id", "title", "author", "materialData"],
+            where: {
+                id: materialId
+            },
+            include: [{
+                model: User,
+                attributes: ["username"]
+            }],
+            raw: true
+        });
+        if (!material) return res.status(404).json({});
+
+        return res.status(200).json({ material: material, materialAuthor: material["user.username"] });
+    } catch(err) {
         return res.status(500).json({});
     }
 }
 
 module.exports = {
     postMaterials,
-    getMaterials
+    getMaterials,
+    getMaterialById
 }
