@@ -126,6 +126,41 @@ export function getInitialMaterialSetup() {
     ];
 }
 
+export function convertMaterialForEditation(material) {
+    const defaultMaterialSetup = getInitialMaterialSetup();
+
+    for (let i = 0; i < defaultMaterialSetup.length; i++) {
+        if (!material[i] || material[i].heading !== defaultMaterialSetup[i].heading) {
+            material.splice(i, 0, defaultMaterialSetup[i]);
+            continue;
+        }
+
+        for (let j = 0; j < defaultMaterialSetup[i].content.length; j++) {
+            const materialPart = material[i].content[j];
+            const defaultMaterialSetupPart = defaultMaterialSetup[i].content[j];
+            if (materialPart.name !== defaultMaterialSetupPart.name) {
+                const part = defaultMaterialSetupPart;
+                part.checked = false;
+                material[i].content.splice(j, 0, part);
+            } else {
+                materialPart.checked = true;
+                switch (materialPart.type) {
+                    case "CHARACTERS":
+                        for (let character of materialPart.characters)
+                            character.id = uuid();
+                        break;
+                    case "PLOT":
+                        for (let plotPart of materialPart.plot)
+                            plotPart.id = uuid();
+                        break;
+                }
+            }
+        }
+    }
+
+    return material;
+}
+
 export function reorderList(list, startIndex, endIndex) {
     const result = list;
     const [removed] = result.splice(startIndex, 1);

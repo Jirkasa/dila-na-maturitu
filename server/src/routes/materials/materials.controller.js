@@ -207,20 +207,57 @@ async function getMaterialById(req, res) {
             },
             include: [{
                 model: User,
-                attributes: ["username"]
+                attributes: ["username", "id"]
             }],
             raw: true
         });
         if (!material) return res.status(404).json({});
 
-        return res.status(200).json({ material: material, materialAuthor: material["user.username"] });
+        return res.status(200).json({ material: material });
     } catch(err) {
         return res.status(500).json({});
+    }
+}
+
+async function putMaterialById(req, res) {
+    const materialId = +req.params.id;
+    if (typeof materialId !== "number") return res.status(400).json({ error: "Nebylo předáno ID materiálu." });
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            error: errors.array()[0].msg,
+        });
+    }
+
+    const title = req.body.title;
+    const author = req.body.author;
+    const materialDataString = req.body.materialData;
+
+    try {
+        const material = await Material.findOne({
+            where: {
+                id: materialId
+            }
+        });
+        if (!material) return res.status(404).json({ error: "Materiál pro aktualizaci nebyl nalezen." });
+        if (material.materialAuthorId !== req.user.id) return res.status(403).json({ error: "Pro aktualizaci tohoto materiálu nemáš oprávnění." });
+
+        material.title = title;
+        material.author = author;
+        material.materialData = materialDataString;
+        await material.save();
+
+        return res.status(201).json({});
+    } catch(err) {
+        console.log(err);
+        return res.status(500).json({ error: "Materiál se bohužel nepovedlo aktualizovat." });
     }
 }
 
 module.exports = {
     postMaterials,
     getMaterials,
-    getMaterialById
+    getMaterialById,
+    putMaterialById
 }

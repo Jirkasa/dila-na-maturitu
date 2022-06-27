@@ -30,11 +30,13 @@ function Material() {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_API_URL}/materials/${materialId}`);
                 const mat = res.data.material;
+                console.log("-----");
+                console.log(res.data);
                 setMaterial({
                     title: mat.title,
                     author: mat.author,
                     data: JSON.parse(mat.materialData),
-                    materialAuthor: res.data.materialAuthor
+                    materialAuthor: mat["user.username"]
                 });
                 setLoading(false);
             } catch(err) {

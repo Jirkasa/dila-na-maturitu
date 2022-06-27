@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import CreateMaterial from './pages/CreateMaterial/CreateMaterial';
+import EditMaterial from './pages/EditMaterial/EditMaterial';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
@@ -47,6 +48,11 @@ function App() {
 				<Route exact path="/vytvoreni-materialu" element={
 					<RequireAuth>
 						<CreateMaterial/>
+					</RequireAuth>
+				}/>
+				<Route exact path="/editace-materialu/:materialId" element={
+					<RequireAuth>
+						<EditMaterial/>
 					</RequireAuth>
 				}/>
 				<Route exact path="/materialy" element={

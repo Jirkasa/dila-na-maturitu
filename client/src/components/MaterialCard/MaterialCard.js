@@ -28,7 +28,7 @@ function MaterialCard(props) {
                 {
                     props.showOptions && (
                         <div className='MaterialCard__options'>
-                            <Link to="/" className='MaterialCard__option MaterialCard__option--edit'>
+                            <Link to={`/editace-materialu/${props.id}`} className='MaterialCard__option MaterialCard__option--edit'>
                                 <svg>
                                     <use xlinkHref={`${config.ICON_SPRITE_PATH}#icon-edit`}></use>
                                 </svg>
