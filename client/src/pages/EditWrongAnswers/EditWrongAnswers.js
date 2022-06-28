@@ -17,6 +17,7 @@ import PageLayoutLeft from '../../components/PageLayoutLeft/PageLayoutLeft';
 import Paragraph from '../../components/Paragraph/Paragraph';
 import { useAuth } from '../../contexts/AuthContext';
 import { getQuestionsFromMaterial } from '../../helpers';
+import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import LoadPage from '../LoadPage/LoadPage';
 
@@ -27,6 +28,7 @@ function EditWrongAnswers() {
     const navigate = useNavigate();
 
     const [isError, setIsError] = useState(false);
+    const [accessDenied, setAccessDenied] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [saveLoading, setSaveLoading] = useState(false);
@@ -80,6 +82,8 @@ function EditWrongAnswers() {
                 });
                 const material = res.data.material;
 
+                if (material["user.id"] !== auth.currentUser.id) return setAccessDenied(true);
+
                 const materialData = JSON.parse(material.materialData);
                 const wrongAnswers = JSON.parse(material.wrongAnswers);
                 const questionsArr = getQuestionsFromMaterial(materialData, wrongAnswers || []);
@@ -98,6 +102,7 @@ function EditWrongAnswers() {
 
 
     if (isError) return <ErrorPage/>;
+    if (accessDenied) return <AccessDeniedPage/>;
     if (loading) return <LoadPage/>;
 
     const answersElements = [];

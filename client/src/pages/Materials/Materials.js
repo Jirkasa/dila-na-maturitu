@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import Button from '../../components/Button/Button';
 import LinkButton from '../../components/Button/LinkButton';
 import CenteredFlexRow from '../../components/CenteredFlexRow/CenteredFlexRow';
 import CenteredText from '../../components/CenteredText/CenteredText';
 import CloseButton from '../../components/CloseButton/CloseButton';
 import HeadingPrimary from '../../components/HeadingPrimary/HeadingPrimary';
 import HorizontalRule from '../../components/HorizontalRule/HorizontalRule';
+import IllustrativeIcon from '../../components/IllustrativeIcon/IllustrativeIcon';
 import LoadIcon from '../../components/LoadIcon/LoadIcon';
 import MaterialCard from '../../components/MaterialCard/MaterialCard';
 import Page from '../../components/Page/Page';
@@ -92,6 +94,48 @@ function Materials() {
     let html;
     if (loading) {
         html = <LoadIcon/>;
+    } else if (!materialsLoading && materialCards.length === 0 && currentPage === 1 && searchText === "") {
+        html = (
+            <CenteredText>
+                <Paragraph bottomMargin={4}>Ještě nejsou vytvořeny žádné materiály. Buď první!</Paragraph>
+                <IllustrativeIcon iconName="icon-tongue" bottomMargin={6}/>
+                {
+                    auth.currentUser
+                    ? <LinkButton to="/vytvoreni-materialu">Vytvořit materiál</LinkButton>
+                    : <LinkButton to="/registrace">Zaregistrovat se</LinkButton>
+                }
+            </CenteredText>
+        );
+    } else if (!materialsLoading && materialCards.length === 0 && currentPage === 1) {
+        html = (
+            <>
+                <CenteredFlexRow>
+                    {auth.currentUser && <LinkButton iconName="icon-plus" to="/vytvoreni-materialu">Vytvořit materiál</LinkButton>}
+                    <SearchBar search={handleSearch} placeholder="Vyhledat materiál..."/>
+                </CenteredFlexRow>
+                <VerticalSpace size={4}/>
+                <HorizontalRule bottomMargin={2}/>
+                <CenteredFlexRow smallGap>
+                    <Paragraph><b>Výsledky hledání pro: </b>{searchText}</Paragraph>
+                    <CloseButton onClick={clearSearch}>odstranit vyhledávání</CloseButton>
+                </CenteredFlexRow>
+                <VerticalSpace size={2}/>
+                <HorizontalRule bottomMargin={4}/>
+                <CenteredText>
+                    <Paragraph bottomMargin={4}>Nic se nenašlo.</Paragraph>
+                    <IllustrativeIcon iconName="icon-search" bottomMargin={6}/>
+                    <Button onClick={clearSearch}>Vymazat hledání</Button>
+                </CenteredText>
+            </>
+        );
+    } else if (!materialsLoading && materialCards.length === 0 && currentPage !== 1) {
+        html = (
+            <CenteredText>
+                <Paragraph bottomMargin={4}>Na této stránce nic není.</Paragraph>
+                <IllustrativeIcon iconName="icon-tongue" bottomMargin={6}/>
+                <Button onClick={clearSearch}>Přejít na první stránku</Button>
+            </CenteredText>
+        );
     } else {
         html = (
             <>
@@ -116,13 +160,17 @@ function Materials() {
                 <HorizontalRule bottomMargin={4}/>
                 {materialsLoading && <LoadIcon/>}
                 {!materialsLoading && materialCards}
-                <Pagination
-                    activePage={currentPage}
-                    pageCount={pageCount}
-                    selectPage={loadMaterials}
-                    selectPrevPage={() => loadMaterials(currentPage-1)}
-                    selectNextPage={() => loadMaterials(currentPage+1)}
-                />
+                {
+                    !materialsLoading && (
+                        <Pagination
+                            activePage={currentPage}
+                            pageCount={pageCount}
+                            selectPage={loadMaterials}
+                            selectPrevPage={() => loadMaterials(currentPage-1)}
+                            selectNextPage={() => loadMaterials(currentPage+1)}
+                        />
+                    )
+                }
             </>
         );
     }

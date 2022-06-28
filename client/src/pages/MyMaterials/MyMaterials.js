@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import Button from '../../components/Button/Button';
 import LinkButton from '../../components/Button/LinkButton';
 import CenteredFlexRow from '../../components/CenteredFlexRow/CenteredFlexRow';
 import CenteredText from '../../components/CenteredText/CenteredText';
 import CloseButton from '../../components/CloseButton/CloseButton';
 import HeadingPrimary from '../../components/HeadingPrimary/HeadingPrimary';
 import HorizontalRule from '../../components/HorizontalRule/HorizontalRule';
+import IllustrativeIcon from '../../components/IllustrativeIcon/IllustrativeIcon';
 import LoadIcon from '../../components/LoadIcon/LoadIcon';
 import MaterialCard from '../../components/MaterialCard/MaterialCard';
 import Page from '../../components/Page/Page';
@@ -94,6 +96,44 @@ function MyMaterials() {
     let html;
     if (loading) {
         html = <LoadIcon/>;
+    } else if (!materialsLoading && materialCards.length === 0 && currentPage === 1 && searchText === "") {
+        html = (
+            <CenteredText>
+                <Paragraph bottomMargin={4}>Zatím ještě nemáš žádné vlastní materiály.</Paragraph>
+                <IllustrativeIcon iconName="icon-file-text2" bottomMargin={6}/>
+                <LinkButton to="/vytvoreni-materialu">Vytvořit materiál</LinkButton>
+            </CenteredText>
+        );
+    } else if (!materialsLoading && materialCards.length === 0 && currentPage === 1) {
+        html = (
+            <>
+                <CenteredFlexRow>
+                    {auth.currentUser && <LinkButton iconName="icon-plus" to="/vytvoreni-materialu">Vytvořit materiál</LinkButton>}
+                    <SearchBar search={handleSearch} placeholder="Vyhledat materiál..."/>
+                </CenteredFlexRow>
+                <VerticalSpace size={4}/>
+                <HorizontalRule bottomMargin={2}/>
+                <CenteredFlexRow smallGap>
+                    <Paragraph><b>Výsledky hledání pro: </b>{searchText}</Paragraph>
+                    <CloseButton onClick={clearSearch}>odstranit vyhledávání</CloseButton>
+                </CenteredFlexRow>
+                <VerticalSpace size={2}/>
+                <HorizontalRule bottomMargin={4}/>
+                <CenteredText>
+                    <Paragraph bottomMargin={4}>Nic se nenašlo.</Paragraph>
+                    <IllustrativeIcon iconName="icon-search" bottomMargin={6}/>
+                    <Button onClick={clearSearch}>Vymazat hledání</Button>
+                </CenteredText>
+            </>
+        );
+    } else if (!materialsLoading && materialCards.length === 0 && currentPage !== 1) {
+        html = (
+            <CenteredText>
+                <Paragraph bottomMargin={4}>Na této stránce nic není.</Paragraph>
+                <IllustrativeIcon iconName="icon-tongue" bottomMargin={6}/>
+                <Button onClick={clearSearch}>Přejít na první stránku</Button>
+            </CenteredText>
+        );
     } else {
         html = (
             <>
