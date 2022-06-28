@@ -21,6 +21,13 @@ const Material = sequelize.define("material", {
     materialData: {
         type: Sequelize.TEXT,
         allowNull: false
+    },
+    testable: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
+    wrongAnswers: {
+        type: Sequelize.TEXT
     }
 }, {
     indexes: [

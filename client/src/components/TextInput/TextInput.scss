@@ -16,4 +16,8 @@
     border-radius: .2rem;
 
     outline-color: $color-grey-60;
+
+    &:disabled {
+        background-color: $color-grey-40;
+    }
 }

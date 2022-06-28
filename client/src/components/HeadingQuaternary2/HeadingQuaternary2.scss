@@ -1,0 +1,15 @@
+@import '../../sass/variables.scss';
+
+.HeadingQuaternary2 {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 2rem;
+
+    text-transform: uppercase;
+
+    color: $color-red-2;
+
+    &--green {
+        color: $color-green;
+    }
+}

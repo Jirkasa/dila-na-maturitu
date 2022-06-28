@@ -85,6 +85,7 @@ function MyMaterials() {
             id={mat.id}
             title={mat.title}
             author={mat.author}
+            testable={mat.testable}
             materialAuthor={auth.currentUser.username}
             showOptions
         />

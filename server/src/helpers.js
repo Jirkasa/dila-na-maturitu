@@ -31,6 +31,117 @@ const ValidMaterialPartNames = {
     "Další autoři ze stejného období": true
 }
 
+function processMaterialData(materialData) {
+    // here will be stored processed material data
+    const data = [];
+    // here will be stored whether material is testable or not
+    let testable = false;
+    const includedSectionParts = {};
+
+    // for each section of material data
+    for (let section of materialData) {
+        // validate section
+        if (typeof section !== 'object') continue;
+        if (!section.heading || (section.heading !== "Analýza uměleckého textu" && section.heading !== "Literárněhistorický kontext")) continue;
+        if (!section.content || !(section.content instanceof Array)) continue;
+
+        // here will be stored section data
+        const sectionData = {
+            heading: section.heading,
+            content: []
+        }
+
+        // for each part of section
+        for (let part of section.content) {
+            // validate part of section
+            if (typeof part !== 'object') continue;
+            if (!part.checked) continue;
+            if (typeof part.name !== "string") continue;
+            if (!ValidMaterialPartNames[part.name]) continue;
+
+            // here will be stored section part data
+            const partData = {
+                name: part.name
+            }
+
+            // do appropriate action based on type of section part
+            switch (part.type) {
+                case "TEXTAREA":
+                    // if section part contains information about text area rows, it will be stored
+                    if (part.textAreaRows && typeof part.textAreaRows === "number") {
+                        partData.textAreaRows = part.textAreaRows;
+                    }
+                case "TEXT":
+                    // validate value of section part
+                    if (!part.value || typeof part.value !== "string") continue;
+                    // store value and type of section part
+                    partData.value = part.value;
+                    partData.type = part.type;
+                    break;
+                case "CHARACTERS":
+                    // validate characters array
+                    if (!part.characters || !(part.characters instanceof Array)) continue;
+
+                    // here will be stored characters of section part
+                    const characters = [];
+                    // for each character in section part
+                    for (let character of part.characters) {
+                        // validate character
+                        if (typeof character !== 'object') continue;
+                        if (!character.name || typeof character.name !== 'string') continue;
+                        if (!character.description || typeof character.description !== 'string') continue;
+                        // add character to characters array
+                        characters.push({
+                            name: character.name,
+                            description: character.description
+                        });
+                    }
+                    // if there are not any characters in this section part, section part will not be stored
+                    if (characters.length === 0) continue;
+                    // store characters and type of section
+                    partData.characters = characters;
+                    partData.type = "CHARACTERS";
+                    // if there are 2 or more characters, material is considered testable
+                    if (characters.length >= 2) testable = true;
+                    break;
+                case "PLOT":
+                    // validate plot array
+                    if (!part.plot || !(part.plot instanceof Array)) continue;
+
+                    // here will be stored parts of plot in section part
+                    const plotParts = [];
+                    // for each plot part in section part
+                    for (let plotPart of part.plot) {
+                        // validate plot part
+                        if (typeof plotPart !== 'object') continue;
+                        if (!plotPart.text || typeof plotPart.text !== 'string') continue;
+                        // add plot part to plot parts array
+                        plotParts.push({ text: plotPart.text });
+                    }
+                    // if there are not any plot parts in this section part, section part will not be stored
+                    if (plotParts.length === 0) continue;
+                    // store plot parts and type of section
+                    partData.plot = plotParts;
+                    partData.type = "PLOT";
+                    // if there are 2 or more plot parts, material is considered testable
+                    if (plotParts.length >= 2) testable = true;
+                    break;
+                default:
+                    continue;
+            }
+            
+            // add section part to section
+            sectionData.content.push(partData);
+            includedSectionParts[partData.name] = true;
+        }
+
+        // add section to material data
+        data.push(sectionData);
+    }
+
+    return {data, testable, includedSectionParts};
+}
+
 const DEFAULT_PAGE_NUMBER = 1;
 const DEFAULT_PAGE_LIMIT = 0;
 const MAX_PAGE_LIMIT = 20;
@@ -49,16 +160,13 @@ async function getPagination(query, rowCount) {
         limit,
         pageCount
     };
-  }
-  
-  module.exports = {
-    getPagination,
-  };
+}
 
 module.exports = {
     generateAccessToken,
     generateRefreshToken,
     generateResetPasswordToken,
     ValidMaterialPartNames,
-    getPagination
+    getPagination,
+    processMaterialData
 }

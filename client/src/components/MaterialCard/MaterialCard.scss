@@ -24,6 +24,9 @@
 
         display: flex;
         gap: 3.2rem;
+
+        border-top-right-radius: .2rem;
+        border-bottom-right-radius: .2rem;
     }
 
     &__options {

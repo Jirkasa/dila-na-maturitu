@@ -8,6 +8,7 @@ import VerticalSpace from '../VerticalSpace/VerticalSpace';
 import LinkButton from '../Button/LinkButton';
 import { Link } from 'react-router-dom';
 import config from '../../config';
+import Button from '../Button/Button';
 
 // TODO - checkbox s heart ikonou zobrazovat jen pro přihlášené uživatele
 
@@ -34,7 +35,7 @@ function MaterialCard(props) {
                                 </svg>
                                 <span>Editovat</span>
                             </Link>
-                            <Link to="/" className='MaterialCard__option MaterialCard__option--answers'>
+                            <Link to={`/editace-spatnych-odpovedi/${props.id}`} className='MaterialCard__option MaterialCard__option--answers'>
                                 <svg>
                                     <use xlinkHref={`${config.ICON_SPRITE_PATH}#icon-comment-o`}></use>
                                 </svg>
@@ -51,7 +52,11 @@ function MaterialCard(props) {
                 }
                 <div className='MaterialCard__buttons'>
                     <LinkButton to={`/material/${props.id}`} iconName="icon-book">Číst</LinkButton>
-                    <LinkButton to="/" iconName="icon-pencil">Test</LinkButton>
+                    {
+                        props.testable
+                        ? <LinkButton to="/" iconName="icon-pencil">Test</LinkButton>
+                        : <Button disabled iconName="icon-pencil">Test</Button>
+                    }
                 </div>
             </div>
         </div>

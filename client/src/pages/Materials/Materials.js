@@ -84,6 +84,7 @@ function Materials() {
             id={mat.id}
             title={mat.title}
             author={mat.author}
+            testable={mat.testable}
             materialAuthor={mat["user.username"]}
         />
     ));

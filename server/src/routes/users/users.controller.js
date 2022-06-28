@@ -89,7 +89,7 @@ async function getMaterials(req, res) {
 
     try {
         const materials = await Material.findAll({
-            attributes: ["id", "title", "author"],
+            attributes: ["id", "title", "author", "testable"],
             offset: pagination.skip,
             limit: pagination.limit,
             where: {

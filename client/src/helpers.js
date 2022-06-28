@@ -166,3 +166,39 @@ export function reorderList(list, startIndex, endIndex) {
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
 }
+
+export function getQuestionsFromMaterial(material, wrongAnswersArr) {
+    const wrongAnswers = {};
+    for (let question of wrongAnswersArr) wrongAnswers[question.name] = question.answers;
+
+    const questions = [];
+
+    for (let section of material) {
+        for (let part of section.content) {
+            if (part.type !== "TEXT" && part.type !== "TEXTAREA") continue;
+
+            const question = {
+                name: part.name,
+                rightAnswer: part.value,
+                wrongAnswers: []
+            };
+            for (let i = 0; i < 3; i++) {
+                if (wrongAnswers[part.name] && wrongAnswers[part.name][i]) {
+                    question.wrongAnswers.push({
+                        value: wrongAnswers[part.name][i],
+                        disabled: false
+                    });
+                } else {
+                    question.wrongAnswers.push({
+                        value: "",
+                        disabled: i === 2
+                    })
+                }
+            }
+
+            questions.push(question);
+        }
+    }
+
+    return questions;
+}

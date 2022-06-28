@@ -71,7 +71,7 @@ function EditMaterial() {
                 }
             }
 
-            await axios.put(`${process.env.REACT_APP_API_URL}/materials/${materialId}`, {
+            await axios.patch(`${process.env.REACT_APP_API_URL}/materials/${materialId}`, {
                 title: title,
                 author: author,
                 materialData: JSON.stringify(materialData)

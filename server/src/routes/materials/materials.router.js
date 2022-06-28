@@ -21,7 +21,7 @@ router.post("/", requireVerifiedUserAuth, [
 ], controller.postMaterials);
 router.get("/", controller.getMaterials);
 router.get("/:id", controller.getMaterialById);
-router.put("/:id", requireVerifiedUserAuth, [
+router.patch("/:id", requireVerifiedUserAuth, [
     body("title")
     .trim()
     .isLength({min: 1}).withMessage("Nezadal jsi název díla.")
@@ -32,6 +32,7 @@ router.put("/:id", requireVerifiedUserAuth, [
     .isLength({max: 255}).withMessage("Maximální délka autora je 255 znaků."),
     body("materialData")
     .isLength({min: 1}).withMessage("Nebyla předána data materiálu")
-], controller.putMaterialById);
+], controller.patchMaterialById);
+router.put("/:id/wrong-answers", requireVerifiedUserAuth, controller.putMaterialWrongAnswersById);
 
 module.exports = router;
