@@ -102,7 +102,6 @@ function EditMaterial() {
                 setMaterial(materialData);
                 setMaterialLoading(false);
             } catch(err) {
-                console.log(err);
                 if (err?.response?.status === 404) setNotFound(true);
                 setIsError(true);
             }

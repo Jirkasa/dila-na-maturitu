@@ -268,10 +268,13 @@ async function getMaterialById(req, res) {
 
     // check whether wrong answers shoud be included in response
     const includeWrongAnswers = req.query.includeWrongAnswers === "true";
+    // check whether not to include material data
+    const dontIncludeMaterialData = req.query.dontIncludeMaterialData === "true";
 
     // set attributes to be retrieved from database
-    const attributes = ["id", "title", "author", "materialData", "testable"];
+    let attributes = ["id", "title", "author", "materialData", "testable"];
     if (includeWrongAnswers) attributes.push("wrongAnswers");
+    if (dontIncludeMaterialData) attributes = attributes.filter(attr => attr !== "materialData");
 
     try {
         // fetch material from database
@@ -481,10 +484,32 @@ async function putMaterialWrongAnswersById(req, res) {
     return res.status(201).json({});
 }
 
+async function deleteMaterialById(req, res) {
+    const materialId = +req.params.id;
+    if (typeof materialId !== "number") return res.status(400).json({});
+
+    try {
+        const material = await Material.findOne({
+            where: {
+                id: materialId
+            }
+        });
+
+        if (!material) return res.status(404).json({});
+        if (material.materialAuthorId !== req.user.id) return res.status(403).json({});
+
+        await material.destroy();
+        return res.status(204).json({});
+    } catch(err) {
+        return res.status(500).json({});
+    }
+}
+
 module.exports = {
     postMaterials,
     getMaterials,
     getMaterialById,
     patchMaterialById,
-    putMaterialWrongAnswersById
+    putMaterialWrongAnswersById,
+    deleteMaterialById
 }

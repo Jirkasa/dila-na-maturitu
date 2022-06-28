@@ -8,8 +8,9 @@ function LinkButton(props) {
     const { iconName } = props;
 
     let cssClasses = "";
-    cssClasses = props.smallText ? "Button--small-text" : cssClasses;
-    cssClasses = props.fullWidth ? " Button--full-width" : cssClasses;
+    cssClasses += props.smallText ? "Button--small-text" : "";
+    cssClasses += props.fullWidth ? " Button--full-width" : "";
+    cssClasses += props.outlined ? " Button--outlined" : "";
 
     // If icon name is specified, display button with icon
     if (iconName) {

@@ -41,7 +41,7 @@ function MaterialCard(props) {
                                 </svg>
                                 <span>Odpovědi</span>
                             </Link>
-                            <Link to="/" className='MaterialCard__option'>
+                            <Link to={`/smazani-materialu/${props.id}`} className='MaterialCard__option'>
                                 <svg>
                                     <use xlinkHref={`${config.ICON_SPRITE_PATH}#icon-bin`}></use>
                                 </svg>

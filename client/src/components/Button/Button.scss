@@ -47,6 +47,20 @@
         }
     }
 
+    &--outlined {
+        &, &:link, &:visited {
+            background-color: transparent;
+            border: .2rem solid $color-primary;
+            color: $color-primary;
+
+            padding: .6rem 1.6rem;
+        }
+        &:hover {
+            background-color: $color-primary;
+            color: $color-white;
+        }
+    }
+
     &__icon {
         width: 1.6rem;
         height: 1.6rem;

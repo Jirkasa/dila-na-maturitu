@@ -34,5 +34,6 @@ router.patch("/:id", requireVerifiedUserAuth, [
     .isLength({min: 1}).withMessage("Nebyla předána data materiálu")
 ], controller.patchMaterialById);
 router.put("/:id/wrong-answers", requireVerifiedUserAuth, controller.putMaterialWrongAnswersById);
+router.delete("/:id", requireVerifiedUserAuth, controller.deleteMaterialById);
 
 module.exports = router;
