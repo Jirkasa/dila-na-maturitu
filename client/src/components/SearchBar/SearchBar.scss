@@ -46,6 +46,8 @@
 
         cursor: pointer;
 
+        outline-color: $color-grey-40;
+
         svg {
             position: absolute;
             top: 50%;
@@ -57,7 +59,7 @@
             fill: $color-white;
         }
 
-        &:hover {
+        &:hover, &:focus-visible {
             background-color: darken($color-secondary, 7%);
         }
     }

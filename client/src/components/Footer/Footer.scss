@@ -16,8 +16,10 @@
             text-decoration: none;
 
             color: $color-tertiary;
+
+            outline-color: $color-tertiary;
         }
-        &:hover {
+        &:hover, &:focus-visible {
             text-decoration: underline;
         }
     }

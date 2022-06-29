@@ -14,9 +14,11 @@
             text-decoration: none;
 
             color: $color-white;
+
+            outline-color: $color-grey-40;
         }
 
-        &:hover {
+        &:hover, &:focus-visible {
             text-decoration: underline;
         }
     }

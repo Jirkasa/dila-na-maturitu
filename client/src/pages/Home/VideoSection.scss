@@ -29,9 +29,11 @@
             padding: 8rem 3.2rem;
 
             transition: all .1s;
+
+            outline-color: $color-grey-60;
         }
 
-        &:hover {
+        &:hover, &:focus-visible {
             text-decoration: underline;
             background-color: lighten($color-grey-80, 5%);
         }

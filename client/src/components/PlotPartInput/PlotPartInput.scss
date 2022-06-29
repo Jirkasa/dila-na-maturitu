@@ -55,6 +55,9 @@
 
         cursor: pointer;
 
+        outline-color: $color-grey-40;
+        outline-offset: .2rem;
+
         svg {
             width: 100%;
             height: 100%;

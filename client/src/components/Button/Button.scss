@@ -21,10 +21,17 @@
 
         cursor: pointer;
         transition: all .1s;
+
+        outline: none;
     }
 
     &:hover {
         background-color: darken($color-primary, 7%);
+    }
+
+    &:focus-visible {
+        background-color: darken($color-primary, 7%);
+        outline: .2rem solid $color-grey-40;
     }
 
     &--with-icon {

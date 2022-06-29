@@ -30,6 +30,8 @@
 
             color: $color-white;
 
+            outline-color: $color-grey-40;
+
             &:not(:last-child) {
                 margin-bottom: .8rem;
             }

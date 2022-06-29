@@ -18,7 +18,9 @@
     transition: all .1s;
     cursor: pointer;
 
-    &--active, &:hover {
+    outline-color: $color-grey-40;
+
+    &--active, &:hover, &:focus-visible {
         color: $color-white;
         background-color: $color-primary;
     }
