@@ -92,7 +92,7 @@ export function AuthProvider(props) {
     function getHeaderConfig() {
         return {
             headers: {
-                authorization: accessToken
+                authorization: accessToken,
             }
         }
     }

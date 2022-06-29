@@ -36,13 +36,15 @@ function Materials() {
         try {
             setMaterialsLoading(true);
 
-            const res = await axios.get(`${process.env.REACT_APP_API_URL}/materials`, {
+            const requestConfig = {
                 params: {
                     page: page,
                     limit: config.MATERIAL_PAGE_SIZE,
                     search: search
                 }
-            });
+            }
+            if (auth.currentUser) requestConfig.headers = auth.getHeaderConfig().headers;
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/materials`, requestConfig);
 
             const queryParams = new URLSearchParams(window.location.search);
             queryParams.set("page", page);
@@ -61,6 +63,7 @@ function Materials() {
             setMaterialsLoading(false);
             setLoading(false);
         } catch(err) {
+            console.log(err);
             setIsError(true);
         }
     }
@@ -77,6 +80,34 @@ function Materials() {
         loadMaterials(page, search);
     }, []);
 
+    const likeMaterial = async (materialId) => {
+        const newMaterials = [...materials];
+        for (let material of newMaterials) {
+            if (material.id === materialId) material.liked = true;
+        }
+        setMaterials(newMaterials);
+
+        try {
+            await axios.post(`${process.env.REACT_APP_API_URL}/materials/${materialId}/like`, {}, auth.getHeaderConfig());
+        } catch(err) {
+            setIsError(true);
+        }
+    }
+
+    const unlikeMaterial = async (materialId) => {
+        const newMaterials = [...materials];
+        for (let material of newMaterials) {
+            if (material.id === materialId) material.liked = false;
+        }
+        setMaterials(newMaterials);
+
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/materials/${materialId}/like`, auth.getHeaderConfig());
+        } catch(err) {
+            setIsError(true);
+        }
+    }
+
 
     if (isError) return <ErrorPage/>;
 
@@ -88,6 +119,10 @@ function Materials() {
             author={mat.author}
             testable={mat.testable}
             materialAuthor={mat["user.username"]}
+            showLikeOption={auth.currentUser}
+            liked={mat.liked}
+            like={likeMaterial}
+            unlike={unlikeMaterial}
         />
     ));
 

@@ -4,8 +4,9 @@ const Material = require('../../models/material.model');
 const User = require("../../models/user.model");
 const VerificationToken = require("../../models/verificationToken.model");
 const emailer = require("../../services/emailer");
-const { Op } = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
 const { getPagination } = require('../../helpers');
+const sequelize = require('../../services/database');
 
 
 async function getUserById(req, res) {
@@ -88,31 +89,49 @@ async function getMaterials(req, res) {
     const pagination = await getPagination(req.query, rowCount);
 
     try {
-        const materials = await Material.findAll({
-            attributes: ["id", "title", "author", "testable"],
-            offset: pagination.skip,
-            limit: pagination.limit,
-            where: {
-                materialAuthorId: req.user.id,
-                [Op.or]: [
-                    {
-                        title: {
-                            [Op.like]: `${searchText}%`
-                        }
-                    },
-                    {
-                        author: {
-                            [Op.like]: `${searchText}%`
-                        }
-                    }
-                ]
+        // const materials = await Material.findAll({
+        //     attributes: ["id", "title", "author", "testable"],
+        //     offset: pagination.skip,
+        //     limit: pagination.limit,
+        //     where: {
+        //         materialAuthorId: req.user.id,
+        //         [Op.or]: [
+        //             {
+        //                 title: {
+        //                     [Op.like]: `${searchText}%`
+        //                 }
+        //             },
+        //             {
+        //                 author: {
+        //                     [Op.like]: `${searchText}%`
+        //                 }
+        //             }
+        //         ]
+        //     },
+        //     order: [
+        //         ["title", "ASC"],
+        //         ["id", "ASC"] // this is needed because if more rows have same title, they can appear twice in more pages
+        //     ],
+        //     raw: true
+        // });
+        const materials = await sequelize.query(`
+        SELECT
+            \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, \`likes\`.\`userId\` IS NOT NULL AS "liked"
+        FROM \`materials\` AS \`material\`
+        LEFT OUTER JOIN
+            \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
+        WHERE \`material\`.\`materialAuthorId\` = :userId AND (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search)
+        ORDER BY \`material\`.\`title\` ASC, \`material\`.\`id\` ASC LIMIT :skip, :limit;
+        `, {
+            replacements: {
+                search: searchText+"%",
+                skip: pagination.skip,
+                limit: pagination.limit,
+                userId: req.user.id
             },
-            order: [
-                ["title", "ASC"],
-                ["id", "ASC"] // this is needed because if more rows have same title, they can appear twice in more pages
-            ],
-            raw: true
+            type: QueryTypes.SELECT
         });
+
         return res.status(200).json({
             materials: materials,
             page: pagination.page,
@@ -120,6 +139,7 @@ async function getMaterials(req, res) {
             pageCount: pagination.pageCount
         });
     } catch(err) {
+        console.log(err);
         return res.status(500).json({});
     }
 }

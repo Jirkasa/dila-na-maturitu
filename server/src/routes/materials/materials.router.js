@@ -1,5 +1,6 @@
 const express = require('express');
 const { body } = require('express-validator');
+const passport = require('passport');
 const requireVerifiedUserAuth = require('../../middlewares/requireVerifiedUserAuth');
 
 const controller = require('./materials.controller');
@@ -35,5 +36,7 @@ router.patch("/:id", requireVerifiedUserAuth, [
 ], controller.patchMaterialById);
 router.put("/:id/wrong-answers", requireVerifiedUserAuth, controller.putMaterialWrongAnswersById);
 router.delete("/:id", requireVerifiedUserAuth, controller.deleteMaterialById);
+router.post("/:id/like", requireVerifiedUserAuth, controller.postLikeMaterialById);
+router.delete("/:id/like", requireVerifiedUserAuth, controller.deleteLikeMaterialById);
 
 module.exports = router;

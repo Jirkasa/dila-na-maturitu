@@ -78,6 +78,34 @@ function MyMaterials() {
         loadMaterials(page, search);
     }, []);
 
+    const likeMaterial = async (materialId) => {
+        const newMaterials = [...materials];
+        for (let material of newMaterials) {
+            if (material.id === materialId) material.liked = true;
+        }
+        setMaterials(newMaterials);
+
+        try {
+            await axios.post(`${process.env.REACT_APP_API_URL}/materials/${materialId}/like`, {}, auth.getHeaderConfig());
+        } catch(err) {
+            setIsError(true);
+        }
+    }
+
+    const unlikeMaterial = async (materialId) => {
+        const newMaterials = [...materials];
+        for (let material of newMaterials) {
+            if (material.id === materialId) material.liked = false;
+        }
+        setMaterials(newMaterials);
+
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/materials/${materialId}/like`, auth.getHeaderConfig());
+        } catch(err) {
+            setIsError(true);
+        }
+    }
+
 
     if (isError) return <ErrorPage/>;
 
@@ -90,6 +118,10 @@ function MyMaterials() {
             testable={mat.testable}
             materialAuthor={auth.currentUser.username}
             showOptions
+            showLikeOption
+            liked={mat.liked}
+            like={likeMaterial}
+            unlike={unlikeMaterial}
         />
     ));
 
@@ -158,13 +190,17 @@ function MyMaterials() {
                 <HorizontalRule bottomMargin={4}/>
                 {materialsLoading && <LoadIcon/>}
                 {!materialsLoading && materialCards}
-                <Pagination
-                    activePage={currentPage}
-                    pageCount={pageCount}
-                    selectPage={loadMaterials}
-                    selectPrevPage={() => loadMaterials(currentPage-1)}
-                    selectNextPage={() => loadMaterials(currentPage+1)}
-                />
+                {
+                    !materialsLoading && (
+                        <Pagination
+                            activePage={currentPage}
+                            pageCount={pageCount}
+                            selectPage={loadMaterials}
+                            selectPrevPage={() => loadMaterials(currentPage-1)}
+                            selectNextPage={() => loadMaterials(currentPage+1)}
+                        />
+                    )
+                }
             </>
         );
     }

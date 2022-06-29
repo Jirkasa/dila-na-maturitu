@@ -1,8 +1,11 @@
 const { validationResult } = require("express-validator");
-const { Op } = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
 const { ValidMaterialPartNames, getPagination, processMaterialData } = require("../../helpers");
+const Like = require("../../models/like.model");
 const Material = require("../../models/material.model");
 const User = require("../../models/user.model");
+const sequelize = require("../../services/database");
+const jwt = require("jsonwebtoken");
 
 // ADD NEW MATERIAL
 async function postMaterials(req, res) {
@@ -195,6 +198,16 @@ async function postMaterials(req, res) {
 async function getMaterials(req, res) {
     const searchText = req.query.search || "";
 
+    const loggedInUserId = await new Promise((resolve, reject) => {
+        const accessToken = req.headers.authorization;
+        if (!accessToken || !accessToken.split(" ")[1]) return resolve(null);
+
+        jwt.verify(accessToken.split(" ")[1], process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+            if (err) return resolve(null);
+            return resolve(user.id);
+        });
+    });
+
     let rowCount;
     try {
         rowCount = await Material.count({
@@ -220,34 +233,62 @@ async function getMaterials(req, res) {
     const pagination = await getPagination(req.query, rowCount);
 
     try {
-        const materials = await Material.findAll({
-            attributes: ["id", "title", "author", "testable"],
-            offset: pagination.skip,
-            limit: pagination.limit,
-            where: {
-                [Op.or]: [
-                    {
-                        title: {
-                            [Op.like]: `${searchText}%`
+        let materials;
+        if (loggedInUserId !== null) {
+            materials = await sequelize.query(`
+            SELECT
+                \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, \`user\`.\`username\` AS \`user.username\`, \`likes\`.\`userId\` IS NOT NULL AS "liked"
+            FROM \`materials\` AS \`material\`
+            LEFT OUTER JOIN
+                \`users\` AS \`user\` ON \`material\`.\`materialAuthorId\` = \`user\`.\`id\`
+            LEFT OUTER JOIN
+                \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
+            WHERE (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search)
+            ORDER BY \`material\`.\`title\` ASC, \`material\`.\`id\` ASC LIMIT :skip, :limit;
+            `, {
+                replacements: {
+                    search: searchText+"%",
+                    skip: pagination.skip,
+                    limit: pagination.limit,
+                    userId: loggedInUserId
+                },
+                type: QueryTypes.SELECT
+            });
+        } else {
+            materials = await Material.findAll({
+                attributes: ["id", "title", "author", "testable"],
+                offset: pagination.skip,
+                limit: pagination.limit,
+                where: {
+                    [Op.or]: [
+                        {
+                            title: {
+                                [Op.like]: `${searchText}%`
+                            }
+                        },
+                        {
+                            author: {
+                                [Op.like]: `${searchText}%`
+                            }
                         }
+                    ]
+                },
+                include: [
+                    {
+                        model: User,
+                        attributes: ["username"]
                     },
-                    {
-                        author: {
-                            [Op.like]: `${searchText}%`
-                        }
-                    }
-                ]
-            },
-            include: [{
-                model: User,
-                attributes: ["username"]
-            }],
-            order: [
-                ["title", "ASC"],
-                ["id", "ASC"] // this is needed because if more rows have same title, they can appear twice in more pages
-            ],
-            raw: true
-        });
+                ],
+                order: [
+                    ["title", "ASC"],
+                    ["id", "ASC"] // this is needed because if more rows have same title, they can appear twice in more pages
+                ],
+                raw: true
+            });
+        }
+
+        console.log(materials);
+
         return res.status(200).json({
             materials: materials,
             page: pagination.page,
@@ -255,6 +296,7 @@ async function getMaterials(req, res) {
             pageCount: pagination.pageCount
         });
     } catch(err) {
+        console.log(err);
         return res.status(500).json({});
     }
 }
@@ -505,11 +547,45 @@ async function deleteMaterialById(req, res) {
     }
 }
 
+async function postLikeMaterialById(req, res) {
+    const materialId = +req.params.id;
+    if (typeof materialId !== "number") return res.status(400).json({});
+
+    try {
+        await Like.create({
+            userId: req.user.id,
+            materialId: materialId
+        });
+        return res.status(204).json({});
+    } catch(err) {
+        return res.status(500).json({});
+    }
+}
+
+async function deleteLikeMaterialById(req, res) {
+    const materialId = +req.params.id;
+    if (typeof materialId !== "number") return res.status(400).json({});
+
+    try {
+        await Like.destroy({
+            where: {
+                userId: req.user.id,
+                materialId: materialId
+            }
+        });
+        return res.status(204).json({});
+    } catch(err) {
+        return res.status(500).json({});
+    }
+}
+
 module.exports = {
     postMaterials,
     getMaterials,
     getMaterialById,
     patchMaterialById,
     putMaterialWrongAnswersById,
-    deleteMaterialById
+    deleteMaterialById,
+    postLikeMaterialById,
+    deleteLikeMaterialById
 }

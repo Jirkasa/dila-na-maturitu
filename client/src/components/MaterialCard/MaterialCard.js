@@ -10,16 +10,23 @@ import { Link } from 'react-router-dom';
 import config from '../../config';
 import Button from '../Button/Button';
 
-// TODO - checkbox s heart ikonou zobrazovat jen pro přihlášené uživatele
-
 function MaterialCard(props) {
+
+    const handleLikeCheck = (e) => {
+        if (e.target.checked) {
+            props.like(props.id);
+        } else {
+            props.unlike(props.id);
+        }
+    }
+
     return (
         <div className='MaterialCard'>
             <div className='MaterialCard__main-side'>
                 <HeadingTertiary red bottomMargin={2}>{props.title}</HeadingTertiary>
                 <SpaceBetweenFlexRow>
                     <h4 className='MaterialCard__author'>{props.author}</h4>
-                    <HeartCheckbox/>
+                    {props.showLikeOption && <HeartCheckbox checked={props.liked} onChange={handleLikeCheck}/>}
                 </SpaceBetweenFlexRow>
                 <VerticalSpace size={4}/>
                 <hr/>

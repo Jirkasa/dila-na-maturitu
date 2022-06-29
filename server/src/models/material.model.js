@@ -2,7 +2,6 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../services/database');
 
-// TODO - ještě ukládat jestli je material testovatelný
 const Material = sequelize.define("material", {
     id: {
         type: Sequelize.INTEGER.UNSIGNED,

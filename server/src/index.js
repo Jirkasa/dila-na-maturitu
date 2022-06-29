@@ -2,6 +2,7 @@ const http = require("http");
 
 require('dotenv').config();
 const app = require('./app');
+const Like = require("./models/like.model");
 const Material = require("./models/material.model");
 const ResetPasswordToken = require("./models/resetPasswordToken.model");
 const User = require("./models/user.model");
@@ -32,6 +33,9 @@ User.hasMany(Material, {
 Material.belongsTo(User, {
     foreignKey: "materialAuthorId"
 });
+
+User.belongsToMany(Material, { through: Like });
+Material.belongsToMany(User, { through: Like });
 
 async function startServer() {
     try {
