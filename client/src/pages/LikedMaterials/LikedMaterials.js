@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Button from '../../components/Button/Button';
-import LinkButton from '../../components/Button/LinkButton';
 import CenteredFlexRow from '../../components/CenteredFlexRow/CenteredFlexRow';
 import CenteredText from '../../components/CenteredText/CenteredText';
 import CloseButton from '../../components/CloseButton/CloseButton';
@@ -20,7 +19,7 @@ import config from '../../config';
 import { useAuth } from '../../contexts/AuthContext';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
-function MyMaterials() {
+function LikedMaterials() {
     const auth = useAuth();
     
     const [loading, setLoading] = useState(true);
@@ -32,11 +31,11 @@ function MyMaterials() {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageCount, setPageCount] = useState(0);
 
-    const loadMaterials = async (page, search=searchText) => {
+    const loadMaterials = async (page, search=searchText, loadPrevPageIfNoMaterials=false) => {
         try {
             setMaterialsLoading(true);
 
-            const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/${auth.currentUser.id}/materials`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/${auth.currentUser.id}/liked-materials`, {
                 params: {
                     page: page,
                     limit: config.MATERIAL_PAGE_SIZE,
@@ -44,6 +43,10 @@ function MyMaterials() {
                 },
                 ...auth.getHeaderConfig()
             });
+
+            if (loadPrevPageIfNoMaterials && res.data.materials.length === 0 && Math.abs(page) !== 1 && page !== 0) {
+                return loadMaterials(Math.abs(page)-1, search);
+            }
 
             const queryParams = new URLSearchParams(window.location.search);
             queryParams.set("page", page);
@@ -78,29 +81,11 @@ function MyMaterials() {
         loadMaterials(page, search);
     }, []);
 
-    const likeMaterial = async (materialId) => {
-        const newMaterials = [...materials];
-        for (let material of newMaterials) {
-            if (material.id === materialId) material.liked = true;
-        }
-        setMaterials(newMaterials);
-
-        try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/materials/${materialId}/like`, {}, auth.getHeaderConfig());
-        } catch(err) {
-            setIsError(true);
-        }
-    }
-
     const unlikeMaterial = async (materialId) => {
-        const newMaterials = [...materials];
-        for (let material of newMaterials) {
-            if (material.id === materialId) material.liked = false;
-        }
-        setMaterials(newMaterials);
-
         try {
+            setMaterialsLoading(true);
             await axios.delete(`${process.env.REACT_APP_API_URL}/materials/${materialId}/like`, auth.getHeaderConfig());
+            await loadMaterials(currentPage, searchText, true);
         } catch(err) {
             setIsError(true);
         }
@@ -117,10 +102,8 @@ function MyMaterials() {
             author={mat.author}
             testable={mat.testable}
             materialAuthor={auth.currentUser.username}
-            showOptions
             showLikeOption
             liked={mat.liked}
-            like={likeMaterial}
             unlike={unlikeMaterial}
         />
     ));
@@ -131,16 +114,14 @@ function MyMaterials() {
     } else if (!materialsLoading && materialCards.length === 0 && currentPage === 1 && searchText === "") {
         html = (
             <CenteredText>
-                <Paragraph bottomMargin={4}>Zatím ještě nemáš žádné vlastní materiály.</Paragraph>
-                <IllustrativeIcon iconName="icon-file-text2" bottomMargin={6}/>
-                <LinkButton to="/vytvoreni-materialu">Vytvořit materiál</LinkButton>
+                <Paragraph bottomMargin={4}>Zatím nemáš žádné oblíbené materiály.</Paragraph>
+                <IllustrativeIcon iconName="icon-file-text2"/>
             </CenteredText>
         );
     } else if (!materialsLoading && materialCards.length === 0 && currentPage === 1) {
         html = (
             <>
                 <CenteredFlexRow>
-                    <LinkButton iconName="icon-plus" to="/vytvoreni-materialu">Vytvořit materiál</LinkButton>
                     <SearchBar search={handleSearch} placeholder="Vyhledat materiál..."/>
                 </CenteredFlexRow>
                 <VerticalSpace size={4}/>
@@ -170,7 +151,6 @@ function MyMaterials() {
         html = (
             <>
                 <CenteredFlexRow>
-                    <LinkButton iconName="icon-plus" to="/vytvoreni-materialu">Vytvořit materiál</LinkButton>
                     <SearchBar search={handleSearch} placeholder="Vyhledat materiál..."/>
                 </CenteredFlexRow>
                 <VerticalSpace size={4}/>
@@ -209,13 +189,13 @@ function MyMaterials() {
         <Page flex>
             <PageLayoutLeft>
                 <CenteredText>
-                    <HeadingPrimary bottomMargin={4}>Moje materiály</HeadingPrimary>
+                    <HeadingPrimary bottomMargin={4}>Oblíbené materiály</HeadingPrimary>
                 </CenteredText>
                 <HorizontalRule bottomMargin={4}/>
                 {html}
             </PageLayoutLeft>
         </Page>
-    );
+    )
 }
 
-export default MyMaterials;
+export default LikedMaterials;

@@ -145,6 +145,75 @@ async function getMaterials(req, res) {
     }
 }
 
+// GET - LIKED MATERIALS
+// used to get materials, that user liked (pagination is used)
+async function getLikedMaterials(req, res) {
+    // get user id from params
+    const id = +req.params.id;
+    // if user doesn't have right to get liked materials of this user, error is sent (users can only get their own materials)
+    if (id !== req.user.id) return res.status(403).json({});
+
+    // get search text from query object (if user want's to search material)
+    const searchText = req.query.search || "";
+
+    // count number of user liked material
+    let rowCount;
+    try {
+        rowCount = await sequelize.query(`
+        SELECT
+            COUNT(*) AS count
+        FROM \`materials\` AS \`material\`
+        INNER JOIN
+            \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
+        WHERE (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search);
+        `, {
+            replacements: {
+                search: searchText+"%",
+                userId: req.user.id
+            },
+            type: QueryTypes.SELECT
+        })
+    } catch(err) {
+        // if something went wrong, error is sent
+        return res.status(500).json({});
+    }
+
+    // get pagination result
+    const pagination = await getPagination(req.query, rowCount[0].count);
+
+    try {
+        // fetch liked materials from database
+        const materials = await sequelize.query(`
+        SELECT
+            \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, true AS "liked"
+        FROM \`materials\` AS \`material\`
+        INNER JOIN
+            \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
+        WHERE (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search)
+            ORDER BY \`material\`.\`title\` ASC, \`material\`.\`id\` ASC LIMIT :skip, :limit;
+        `, {
+            replacements: {
+                search: searchText+"%",
+                skip: pagination.skip,
+                limit: pagination.limit,
+                userId: req.user.id
+            },
+            type: QueryTypes.SELECT
+        });
+
+        // send materials to client
+        return res.status(200).json({
+            materials: materials,
+            page: pagination.page,
+            pageSize: pagination.limit,
+            pageCount: pagination.pageCount
+        });
+    } catch(err) {
+        // if something went wrong, error is sent
+        return res.status(500).json({});
+    }
+}
+
 // PATCH - USERNAME
 // used to change (set) user username
 // - only users with no username can set their name
@@ -243,6 +312,7 @@ module.exports = {
     getUserById,
     getUserByEmail,
     getMaterials,
+    getLikedMaterials,
     patchUsername,
     postResendVerificationToken
 }

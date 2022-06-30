@@ -13,6 +13,8 @@ const router = express.Router();
 router.get("/email", requireUserAuth, controller.getUserByEmail);
 // GET - USER MATERIALS
 router.get("/:id/materials", requireUserAuth, controller.getMaterials);
+// GET - LIKED MATERIALS
+router.get("/:id/liked-materials", requireUserAuth, controller.getLikedMaterials);
 // GET - ID (get user by ID)
 router.get("/:id", requireUserAuth, controller.getUserById);
 // PATCH - USERNAME (change username of user)

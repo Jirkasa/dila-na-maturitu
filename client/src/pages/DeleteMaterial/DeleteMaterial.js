@@ -74,7 +74,7 @@ function DeleteMaterial() {
                 <CenteredText>
                     <HeadingPrimary bottomMargin={4}>Smazání materiálu</HeadingPrimary>
                     <HorizontalRule bottomMargin={4}/>
-                    <Paragraph bottomMargin={4}>Opravdu si přeješ odstranit tento materiál?</Paragraph>
+                    <Paragraph bottomMargin={4}>Opravdu si přeješ smazat tento materiál?</Paragraph>
                     <h2 className='DeleteMaterial__title'>{material.title}</h2>
                     <h3 className='DeleteMaterial__author'>{material.author}</h3>
                     <HorizontalRule bottomMargin={6}/>

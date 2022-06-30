@@ -6,6 +6,7 @@ import EditMaterial from './pages/EditMaterial/EditMaterial';
 import EditWrongAnswers from './pages/EditWrongAnswers/EditWrongAnswers';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import Home from './pages/Home/Home';
+import LikedMaterials from './pages/LikedMaterials/LikedMaterials';
 import Login from './pages/Login/Login';
 import Logout from './pages/Logout/Logout';
 import Material from './pages/Material/Material';
@@ -73,6 +74,11 @@ function App() {
 				<Route exact path="/moje-materialy" element={
 					<RequireAuth>
 						<MyMaterials/>
+					</RequireAuth>
+				}/>
+				<Route exact path="/oblibene-materialy" element={
+					<RequireAuth>
+						<LikedMaterials/>
 					</RequireAuth>
 				}/>
 				<Route exact path="/material/:materialId" element={
