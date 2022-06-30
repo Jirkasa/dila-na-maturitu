@@ -2,12 +2,13 @@ const Sequelize = require('sequelize');
 
 const sequelize = require("../services/database");
 
+// represents user likes
 const Like = sequelize.define("like", {
-    userId: {
+    userId: { // user who liked
         type: Sequelize.INTEGER.UNSIGNED,
         allowNull: false
     },
-    materialId: {
+    materialId: { // what material user liked
         type: Sequelize.INTEGER.UNSIGNED,
         allowNull: false
     }

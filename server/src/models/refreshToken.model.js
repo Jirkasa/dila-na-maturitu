@@ -11,7 +11,7 @@ const RefreshToken = sequelize.define("refreshtoken", {
         primaryKey: true
     }
 }, {
-    indexes: [
+    indexes: [ // tokens are indexed, so they can be quickly obtained from database
         {
             fields: ["token"]
         }

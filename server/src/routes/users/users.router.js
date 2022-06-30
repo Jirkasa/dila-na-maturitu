@@ -4,11 +4,18 @@ const requireUserAuth = require("../../middlewares/requireUserAuth");
 const { query } = require('express-validator');
 const User = require('../../models/user.model');
 
+
+// create router
 const router = express.Router();
 
+// add routes to router
+// GET - EMAIL (get user by email)
 router.get("/email", requireUserAuth, controller.getUserByEmail);
+// GET - USER MATERIALS
 router.get("/:id/materials", requireUserAuth, controller.getMaterials);
+// GET - ID (get user by ID)
 router.get("/:id", requireUserAuth, controller.getUserById);
+// PATCH - USERNAME (change username of user)
 router.patch("/username", [
     query("username")
     .trim()
@@ -26,6 +33,7 @@ router.patch("/username", [
         }
     })
 ], requireUserAuth, controller.patchUsername);
+// POST - RESEND VERIFICATION TOKEN (send new email to verify account)
 router.post("/resend-verification-token", requireUserAuth, controller.postResendVerificationToken);
 
 module.exports = router;

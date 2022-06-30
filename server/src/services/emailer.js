@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 
+// create transporter for sending emails
 const transporter = nodemailer.createTransport({
     service: "SendinBlue",
     auth: {
@@ -9,6 +10,7 @@ const transporter = nodemailer.createTransport({
 });
 
 
+// FUNCTION TO SEND VERIFICATION EMAIL
 function sendVerificationEmail(email, verificationToken) {
     return transporter.sendMail({
         from: "overeni@dila-na-maturitu.cz",
@@ -36,6 +38,7 @@ function sendVerificationEmail(email, verificationToken) {
     });
 }
 
+// FUNCTION TO SEND RESET PASSWORD EMAIL
 function sendResetPasswordEmail(email, token) {
     return transporter.sendMail({
         from: "reset-hesla@dila-na-maturitu.cz",

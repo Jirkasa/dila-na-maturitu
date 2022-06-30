@@ -12,22 +12,19 @@ const User = sequelize.define("user", {
     },
     username: {
         type: Sequelize.STRING(35),
-        // allowNull: false
     },
     email: {
         type: Sequelize.STRING(320),
-        // allowNull: false
     },
-    authProvider: {
+    authProvider: { // determines whether user is registered using google or password
         type: Sequelize.ENUM(["password", "google"]),
         allowNull: false
     },
-    authProviderProfileId: {
+    authProviderProfileId: { // stores google profile id when user is registered using google
         type: Sequelize.STRING,
     },
-    password: {
+    password: { // users that are not registered using google have password
         type: Sequelize.STRING,
-        // allowNull: false
     },
     verified: {
         type: Sequelize.BOOLEAN,

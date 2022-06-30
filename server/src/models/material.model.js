@@ -17,19 +17,19 @@ const Material = sequelize.define("material", {
         type: Sequelize.STRING,
         allowNull: false
     },
-    materialData: {
+    materialData: { // strigified JSON object containing material data
         type: Sequelize.TEXT,
         allowNull: false
     },
-    testable: {
+    testable: { // represent whether material can be used for testing
         type: Sequelize.BOOLEAN,
         allowNull: false
     },
-    wrongAnswers: {
+    wrongAnswers: { // stringified JSON object containing wrong answers for material data
         type: Sequelize.TEXT
     }
 }, {
-    indexes: [
+    indexes: [ // indexes are used to speed up searching of materials
         {
             fields: ["title"]
         },
