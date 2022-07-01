@@ -3,6 +3,7 @@ const controller = require('./users.controller');
 const requireUserAuth = require("../../middlewares/requireUserAuth");
 const { query } = require('express-validator');
 const User = require('../../models/user.model');
+const requireVerifiedUserAuth = require('../../middlewares/requireVerifiedUserAuth');
 
 
 // create router
@@ -37,5 +38,11 @@ router.patch("/username", [
 ], requireUserAuth, controller.patchUsername);
 // POST - RESEND VERIFICATION TOKEN (send new email to verify account)
 router.post("/resend-verification-token", requireUserAuth, controller.postResendVerificationToken);
+// POST - VOTE
+router.post("/:id/vote", requireVerifiedUserAuth, controller.postVote);
+// POST - DELETE VOTE
+router.delete("/:id/vote", requireVerifiedUserAuth, controller.deleteVote);
+// GET - VOTE
+router.get("/:id/vote", requireVerifiedUserAuth, controller.getVote);
 
 module.exports = router;

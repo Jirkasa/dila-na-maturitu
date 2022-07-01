@@ -4,6 +4,7 @@ const app = require('./app');
 const Like = require("./models/like.model");
 const Material = require("./models/material.model");
 const ResetPasswordToken = require("./models/resetPasswordToken.model");
+const SurveyVote = require("./models/surveyVote.model");
 const User = require("./models/user.model");
 const VerificationToken = require("./models/verificationToken.model");
 const sequelize = require('./services/database');
@@ -35,6 +36,13 @@ Material.belongsTo(User, {
 });
 User.belongsToMany(Material, { through: Like });
 Material.belongsToMany(User, { through: Like });
+User.hasOne(SurveyVote, {
+    onDelete: "CASCADE",
+    foreignKey: {
+        allowNull: false,
+        primaryKey: true
+    }
+})
 // ------------------------------------------------
 
 // function to start server

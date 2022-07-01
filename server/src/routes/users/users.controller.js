@@ -7,6 +7,7 @@ const emailer = require("../../services/emailer");
 const { Op, QueryTypes } = require("sequelize");
 const { getPagination } = require('../../helpers');
 const sequelize = require('../../services/database');
+const SurveyVote = require('../../models/surveyVote.model');
 
 
 // GET - USER BY ID
@@ -308,11 +309,93 @@ async function postResendVerificationToken(req, res) {
     }
 }
 
+// POST - VOTE
+// used to vote in survey
+async function postVote(req, res) {
+    // get user id from params
+    const id = +req.params.id;
+    // if user doesn't have right to change vote of this user, error is sent
+    if (id !== req.user.id) return res.status(403).json({});
+
+    // get vote from query object
+    let agree = req.query.agree;
+
+    // validate and get result from agree query parameter
+    if (agree === "true") agree = true;
+    else if (agree === "false") agree = false;
+    else return res.status(400).json({ error: "Query attribute agree must be set to true or false." });
+
+    try {
+        // add/update vote in database
+        await SurveyVote.upsert({
+            agree: agree,
+            userId: id
+        });
+        // inform user that his vote has been accepted
+        return res.status(200).json({ agree: agree});
+    } catch(err) {
+        // if something went wrong, error is sent
+        return res.status(500).json({});
+    }
+}
+
+// DELETE - VOTE
+// used to delete vote in survey for user
+async function deleteVote(req, res) {
+    // get user id from params
+    const id = +req.params.id;
+    // if user doesn't have right to delete vote of this user, error is sent
+    if (id !== req.user.id) return res.status(403).json({});
+
+    try {
+        // delete vote from database
+        await SurveyVote.destroy({
+            where: {
+                userId: id
+            }
+        });
+
+        // inform user that his vote has been deleted
+        return res.status(200).json({});
+    } catch(err) {
+        // if something went wrong, error is sent
+        return res.status(500).json({});
+    }
+}
+
+// GET - VOTE
+// used to get vote of user
+async function getVote(req, res) {
+    // get user id from params
+    const id = +req.params.id;
+    // if user doesn't have right to get vote of this user, error is sent
+    if (id !== req.user.id) return res.status(403).json({});
+
+    try {
+        // get user vote from database
+        const vote = await SurveyVote.findOne({
+            attributes: ["agree"],
+            where: {
+                userId: id
+            },
+            raw: true
+        });
+        // send user vote to client
+        return res.status(200).json({ vote: vote });
+    } catch(err) {
+        // if something went wrong, error is sent
+        return res.status(500).json({});
+    }
+}
+
 module.exports = {
     getUserById,
     getUserByEmail,
     getMaterials,
     getLikedMaterials,
     patchUsername,
-    postResendVerificationToken
+    postResendVerificationToken,
+    postVote,
+    deleteVote,
+    getVote
 }

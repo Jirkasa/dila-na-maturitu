@@ -1,0 +1,25 @@
+@import '../../sass/variables.scss';
+
+.SurveyBox {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 2.4rem;
+    
+    color: $color-grey-80;
+    background-color: #50E68C;
+
+    border-radius: .2rem;
+
+    text-align: center;
+
+    padding: 1.6rem;
+
+    &--orange {
+        background-color: #E6BC50;
+    }
+
+    &--big-text {
+        font-size: 2.4rem;
+        line-height: 2.8rem;
+    }
+}

@@ -9,6 +9,7 @@ import HeadingPrimary from '../../components/HeadingPrimary/HeadingPrimary';
 import CenteredText from '../../components/CenteredText/CenteredText';
 import ColumnPattern from '../../components/ColumnPattern/ColumnPattern';
 import VideoSection from './VideoSection';
+import Survey from '../../components/Survey/Survey';
 
 function Home() {
     return (
@@ -66,8 +67,9 @@ function Home() {
                     <div className='Home__section-content'>
                         <CenteredText>
                             <HeadingPrimary bottomMargin={6} asH2>Anketa</HeadingPrimary>
-                            <Paragraph>Za mě literatura na maturitní zkoušku rozhodně nepatří. Chtěl jsem ale zjistit, co si o tom myslí jiní lidé. Proto jsem tu vytvořil anketu, ve které zaregistrovaní uživatelé mohou hlasovat, jestli si myslí že literatura na maturitu patří nebo ne.</Paragraph>
+                            <Paragraph bottomMargin={8}>Za mě literatura na maturitní zkoušku rozhodně nepatří. Chtěl jsem ale zjistit, co si o tom myslí jiní lidé. Proto jsem tu vytvořil anketu, ve které zaregistrovaní uživatelé mohou hlasovat, jestli si myslí že literatura na maturitu patří nebo ne.</Paragraph>
                         </CenteredText>
+                        <Survey/>
                     </div>
                     <ColumnPattern/>
                 </div>
