@@ -1,0 +1,78 @@
+@import '../../sass/variables.scss';
+
+.RadioInput {
+
+    &__option {
+        display: flex;
+        align-items: center;
+        gap: .8rem;
+
+        &:not(:last-child) {
+            margin-bottom: .8rem;
+        }
+    }
+    
+    &__input {
+        width: 0;
+        height: 1.6rem;
+
+        position: relative;
+
+        outline: none;
+
+        &::after {
+            display: inline-block;
+            visibility: visible;
+            content: "";
+
+            width: 1.6rem;
+            height: 100%;
+
+            border: .2rem solid $color-primary-dark;
+            border-radius: 50%;
+        }
+
+        // display 
+        &::before {
+            content: "";
+            display: none;
+
+            background-color: $color-primary-dark;
+            border-radius: 50%;
+
+            width: .8rem;
+            height: .8rem;
+
+            position: absolute;
+            left: .8rem;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        &:checked {
+            &::before {
+                display: block;
+            }
+        }
+
+        &:focus-visible {
+            &::after {
+                // border-color: $color-primary;
+                border-width: .4rem;
+            }
+
+            &::before {
+                background-color: $color-primary;
+            }
+        }
+    }
+
+    &__label {
+        font-size: 1.6rem;
+        line-height: 2.4rem;
+
+        color: $color-grey-60;
+
+        padding-left: 1.6rem;
+    }
+}

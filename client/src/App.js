@@ -15,6 +15,7 @@ import MyMaterials from './pages/MyMaterials/MyMaterials';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import PasswordReset from './pages/PasswordReset/PasswordReset';
 import Registration from './pages/Registration/Registration';
+import Test from './pages/Test/Test';
 import NoUser from './route-guards/NoUser';
 import RequireAuth from './route-guards/RequireAuth';
 
@@ -83,6 +84,9 @@ function App() {
 				}/>
 				<Route exact path="/material/:materialId" element={
 					<Material/>
+				}/>
+				<Route exact path="/test/:materialId" element={
+					<Test/>
 				}/>
 			</Routes>
 		</AuthProvider>

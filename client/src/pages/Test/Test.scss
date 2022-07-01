@@ -1,0 +1,52 @@
+@import '../../sass/variables.scss';
+
+.Test {
+    &__result-text {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 2rem;
+
+        color: $color-secondary-dark;
+
+        margin-bottom: 2.4rem;
+    }
+
+    &__answer-heading {
+        display: flex;
+        align-items: center;
+        gap: .8rem;
+
+        font-size: 1.6rem;
+        font-weight: 700;
+        line-height: 1.6rem;
+
+        color: $color-green-2;
+
+        text-transform: uppercase;
+
+        margin-bottom: .8rem;
+
+        svg {
+            width: 1.6rem;
+            height: 1.6rem;
+            fill: $color-green-2;
+        }
+
+        &--bad {
+            color: $color-red;
+
+            svg {
+                fill: $color-red;
+            }
+        }
+    }
+
+    &__character-name, &__right-plot {
+        font-size: 1.6rem;
+        line-height: 2rem;
+
+        color: $color-secondary-dark;
+
+        text-transform: uppercase;
+    }
+}

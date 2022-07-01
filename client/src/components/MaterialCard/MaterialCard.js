@@ -61,7 +61,7 @@ function MaterialCard(props) {
                     <LinkButton to={`/material/${props.id}`} iconName="icon-book">Číst</LinkButton>
                     {
                         props.testable
-                        ? <LinkButton to="/" iconName="icon-pencil">Test</LinkButton>
+                        ? <LinkButton to={`/test/${props.id}`} iconName="icon-pencil">Test</LinkButton>
                         : <Button disabled iconName="icon-pencil">Test</Button>
                     }
                 </div>

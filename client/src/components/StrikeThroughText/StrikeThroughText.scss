@@ -1,0 +1,6 @@
+@import '../../sass/variables.scss';
+
+.StrikeThroughText {
+    text-decoration: line-through;
+    text-decoration-color: $color-grey-60;
+}
