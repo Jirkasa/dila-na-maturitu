@@ -6,10 +6,6 @@ import Checkbox from '../Checkbox/Checkbox';
 function CheckableOption2(props) {
     const bottomMargin = props.bottomMargin ? props.bottomMargin * 0.4 : 0;
 
-    // const handleCheckChange = (e) => {
-    //     props.
-    // }
-
     return (
         <div className='CheckableOption2' style={{ marginBottom: `${bottomMargin}rem` }}>
             <Checkbox checked={props.checked} onChange={props.onChange} id={"use_" + props.children.replaceAll(" ", "-")}/>

@@ -2,12 +2,14 @@ const path = require("path");
 const express = require("express");
 const verificationRouter = require("./routes/verification/verification.router");
 const api = require("./routes/api");
+const helmet = require("helmet");
 
 
 // create new express app
 const app = express();
 
-
+// set various http headers for better security
+app.use(helmet());
 // parse body
 app.use(express.json());
 // set public directories
