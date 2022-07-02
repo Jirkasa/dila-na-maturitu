@@ -1,7 +1,9 @@
 @import '../../sass/variables.scss';
+@import '../../sass/mixins.scss';
 
 .Header {
     height: $header-height;
+    max-width: $max-page-width;
     padding: 0 $page-margin;
 
     background-color: $color-grey-80;
@@ -12,7 +14,8 @@
     &--fixed {
         position: fixed;
         top: 0;
-        left: 0;
+        left: 50%;
+        transform: translateX(-50%);
         width: 100%;
     }
 
@@ -41,6 +44,10 @@
             color: $color-white;
 
             outline-color: $color-grey-40;
+
+            @media (max-width: pxToEm(360)) {
+                font-size: 2rem;
+            }
         }
     }
 }

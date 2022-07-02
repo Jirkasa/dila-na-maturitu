@@ -1,3 +1,6 @@
+@import './functions.scss';
+@import './mixins.scss';
+
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -6,6 +9,14 @@
 
 html {
     font-size: 62.5%; // 1rem = 10px
+
+    @media (min-width: pxToEm(1600)) {
+        font-size: 68.75%; // 1rem = 11px
+    }
+
+    @include respond(big-desktop) {
+        font-size: 75%; // 1rem = 12px
+    }
 }
 
 body {

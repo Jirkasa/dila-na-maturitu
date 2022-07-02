@@ -1,0 +1,16 @@
+@import './functions.scss';
+
+@mixin respond($breakpoint) {
+    @if $breakpoint == phone {
+        @media (max-width: pxToEm(600)) { @content }; //600px
+    }
+    @if $breakpoint == tab-port {
+        @media (max-width: pxToEm(900)) { @content }; //900px
+    }
+    @if $breakpoint == tab-land {
+        @media (max-width: pxToEm(1200)) { @content }; //1200px
+    }
+    @if $breakpoint == big-desktop {
+        @media (min-width: pxToEm(1800)) { @content }; //1800px
+    }
+}

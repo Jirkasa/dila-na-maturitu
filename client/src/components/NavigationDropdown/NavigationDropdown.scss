@@ -1,15 +1,24 @@
 @import '../../sass/variables.scss';
+@import '../../sass/mixins.scss';
 
 .NavigationDropdown {
     position: absolute;
     right: 0;
     top: 100%;
 
+    @include respond(tab-port) {
+        position: unset;
+    }
+
     &__content {
         background-color: $color-grey-80;
         border-top: .4rem solid $color-grey-60;
 
         padding: .8rem 0;
+
+        @include respond(tab-port) {
+            padding-bottom: 0;
+        }
     }
 
     &__link {
@@ -31,6 +40,10 @@
             color: $color-white;
 
             outline-color: $color-grey-40;
+
+            @include respond(tab-port) {
+                padding: 0;
+            }
 
             &:not(:last-child) {
                 margin-bottom: .8rem;

@@ -1,8 +1,13 @@
 @import '../../sass/variables.scss';
+@import '../../sass/mixins.scss';
 
 .ButtonSelectInput {
     display: flex;
     justify-content: center;
+
+    @include respond(phone) {
+        flex-direction: column;
+    }
 
     &__option {
         font-family: inherit;
@@ -26,12 +31,18 @@
         }
 
         &:first-child {
-            border-top-left-radius: .2rem;
-            border-bottom-left-radius: .2rem;
+            border-radius: .2rem 0 0 .2rem;
+
+            @include respond(phone) {
+                border-radius: .2rem .2rem 0 0;
+            }
         }
         &:last-child {
-            border-top-right-radius: .2rem;
-            border-bottom-right-radius: .2rem;
+            border-radius: 0 .2rem .2rem 0;
+
+            @include respond(phone) {
+                border-radius: 0 0 .2rem .2rem;
+            }
         }
     }
 }

@@ -74,6 +74,8 @@
 
         position: relative;
 
+        flex-shrink: 0;
+
         svg {
             position: absolute;
             top: 0;

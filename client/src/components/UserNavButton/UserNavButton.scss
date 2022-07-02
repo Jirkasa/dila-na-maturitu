@@ -1,4 +1,5 @@
 @import '../../sass/variables.scss';
+@import '../../sass/mixins.scss';
 
 .UserNavButton {
     display: flex;
@@ -14,6 +15,10 @@
     line-height: 2.4rem;
 
     cursor: pointer;
+
+    @include respond(tab-port) {
+        margin-bottom: .8rem;
+    }
 
     &__user-icon {
         width: 2rem;

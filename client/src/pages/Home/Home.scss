@@ -1,9 +1,13 @@
 @import '../../sass/variables.scss';
+@import '../../sass/functions.scss';
+@import '../../sass/mixins.scss';
 
 .Home {
 
     &__intro-section {
         height: calc(100vh - #{$header-height});
+        min-height: 61.5rem;
+        max-height: 80rem;
 
         background-color: $color-grey-20;
 
@@ -12,6 +16,18 @@
         background-position: center;
 
         padding: 0 $page-margin;
+
+        @media (max-width: pxToEm(1050)) {
+            background-position-x: left;
+        }
+        @include respond(tab-port) {
+            background-image: linear-gradient(rgba($color-white, .8), rgba($color-grey-20, .95)), url("../../../public/img/intro-image-mobile.jpg");
+        }
+        @media (max-width: pxToEm(350)) {
+            height: auto;
+            max-height: none;
+            padding: 3.2rem;
+        }
 
         > div {
             height: 100%;
@@ -22,11 +38,31 @@
 
             margin: 0 auto;
             max-width: $grid-width;
+
+            @include respond(phone) { gap: 0; }
         }
     }
 
     &__intro-section-content {
         grid-column: 1 / span 6;
+
+        @media (max-width: pxToEm(1050)) {
+            grid-column: 1 / span 8;
+        }
+        // @media (max-width: pxToEm(850)) {
+        //     grid-column: 1 / span 10;
+        // }
+        // @media (max-width: pxToEm(700)) {
+        //     grid-column: 1 / span 12;
+        //     text-align: center;
+        // }
+        @include respond(tab-port) {
+            grid-column: 2 / span 10;
+            text-align: center;
+        }
+        @include respond(phone) {
+            grid-column: 1 / span 12;
+        }
     }
 
     &__intro-headline {
@@ -38,6 +74,11 @@
         color: $color-grey-80;
 
         margin-bottom: 3.2rem;
+
+        @include respond(phone) {
+            font-size: 3.2rem;
+            line-height: 3.6rem;
+        }
     }
 
     &__section {
@@ -50,6 +91,13 @@
 
             max-width: $grid-width;
             margin: 0 auto;
+
+            @media (max-width: pxToEm(750)) {
+                > .ColumnPattern {
+                    display: none;
+                }
+            }
+            @include respond(phone) { gap: 0; }
         }
     }
     
@@ -57,6 +105,10 @@
         grid-column: span 8;
 
         padding: $page-margin 0;
+
+        @media (max-width: pxToEm(750)) {
+            grid-column: span 12;
+        }
     }
 
     &__videos-section {
@@ -75,8 +127,17 @@
         grid-template-columns: $column-grid-12;
         gap: $grid-gutter;
 
+        @include respond(phone) { gap: 0; }
+
         > p {
             grid-column: 3 / span 8;
+
+            @media (max-width: pxToEm(790)) {
+                grid-column: 2 / span 10;
+            }
+            @include respond(phone) {
+                grid-column: 1 / span 12;
+            }
         }
     }
 }

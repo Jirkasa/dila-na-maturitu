@@ -1,9 +1,15 @@
 @import '../../sass/variables.scss';
+@import '../../sass/mixins.scss';
 
 .VideoSection {
     display: grid;
     grid-template-columns: $column-grid-12;
     gap: $grid-gutter;
+
+    @include respond(tab-port) {
+        display: flex;
+        flex-direction: column-reverse;
+    }
 
     &__video {
         &:link, &:visited {
@@ -18,7 +24,7 @@
 
             font-size: 2.4rem;
             font-weight: 700;
-            line-height: 2.4rem;
+            line-height: 1;
 
             text-transform: uppercase;
             text-decoration: none;
@@ -31,6 +37,11 @@
             transition: all .1s;
 
             outline-color: $color-grey-60;
+
+            @media (max-width: pxToEm(650)) {
+                padding: 4rem 3.2rem;
+                font-size: 2rem;
+            }
         }
 
         &:hover, &:focus-visible {
@@ -43,6 +54,11 @@
         width: 22.6rem;
         height: 22.6rem;
         margin: 0 auto;
+
+        @media (max-width: pxToEm(650)) {
+            width: 12rem;
+            height: 12rem;
+        }
 
         svg {
             width: 100%;
@@ -58,6 +74,10 @@
         transform: translateY(-50%);
         right: 0;
 
+        @media (max-width: pxToEm(650)) {
+            display: none;
+        }
+
         &--left {
             left: 0;
             transform: rotate(180deg) translateY(50%);
@@ -71,6 +91,11 @@
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-start;
+
+        @include respond(tab-port) {
+            align-items: center;
+            text-align: center;
+        }
     }
 
     &__title {
@@ -88,6 +113,10 @@
     &__icon {
         width: 23rem;
         height: 23rem;
+
+        @include respond(tab-port) {
+            display: none;
+        }
         
         svg {
             width: 100%;

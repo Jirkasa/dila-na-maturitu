@@ -1,0 +1,67 @@
+@import '../../sass/variables.scss';
+@import '../../sass/mixins.scss';
+
+.NavigationToggleButton {
+    display: none;
+
+    height: 100%;
+    width: 4rem;
+
+    border: none;
+    background-color: transparent;
+
+    position: relative;
+
+    cursor: pointer;
+
+    @include respond(tab-port) {
+        display: inline-block;
+    }
+
+    &__icon {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+
+        width: 100%;
+        height: .4rem;
+
+        background-color: $color-white;
+
+        transition: all cubic-bezier(0.68, -0.55, 0.265, 1.55) .4s;
+
+        &::before, &::after {
+            content: "";
+
+            width: 100%;
+            height: 100%;
+
+            background-color: $color-white;
+
+            position: absolute;
+            left: 0;
+
+            transition: all cubic-bezier(0.68, -0.55, 0.265, 1.55) .4s;
+        }
+        &::before {
+            // transform: translateY(-100%);
+            bottom: 1.2rem;
+        }
+        &::after {
+            // transform: translateY(100%);
+            top: 1.2rem;
+        }
+    }
+
+    &--opened > &__icon {
+        background-color: transparent;
+
+        &::before {
+            transform: translateY(1.2rem) rotate(225deg) scaleX(.8);
+        }
+        &::after {
+            transform: translateY(-1.2rem) rotate(-225deg) scaleX(.8);
+        }
+    }
+}
