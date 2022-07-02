@@ -12,18 +12,26 @@ import StrikeThroughText from '../../components/StrikeThroughText/StrikeThroughT
 import List from '../../components/List/List';
 import { useNavigate } from 'react-router-dom';
 
+// RESULTS PART OF PAGE FOR TEST PAGE
 function TestResultsPart(props) {
     const navigate = useNavigate();
 
+    // variables to store number of questions and mistakes
     let numberOfQuestions = 0;
     let numberofMistakes = 0;
 
+    // get array of question elements with results to be displayed on page
     const questions = props.quizData.filter(question => question.checked).map((question, idx) => {
+        // increase number of questions
         numberOfQuestions++;
 
+        // if question is of type QUESTION
         if (question.type === "QUESTION") {
+            // check whether user answered question correctly
             const isCorrect = question.selectedAnswerIdx === question.rightAnswerIdx;
+            // if user didn't answer question correctly, number of mistakes is increased
             if (!isCorrect) numberofMistakes++;
+            // HTML for question is displayed
             return (
                 <div key={idx} style={{ marginBottom: "1.6rem" }}>
                     <HeadingTertiary2 bottomMargin={2}>{question.title}</HeadingTertiary2>
@@ -61,11 +69,14 @@ function TestResultsPart(props) {
                 </div>
             );
         }
-
+        // if question is of type CHARACTERS
         if (question.type === "CHARACTERS") {
+            // determines whether user made a mistake
             let wrong = false;
-            const characterQuestions = question.characterDescriptions.map((characterDescription, idx) => {
 
+            // create character questions elements
+            const characterQuestions = question.characterDescriptions.map((characterDescription, idx) => {
+                // check whether user made a mistake
                 const isMistake = characterDescription.selectedNameIdx !== characterDescription.rightNameIdx;
                 if (isMistake) wrong = true;
 
@@ -86,8 +97,11 @@ function TestResultsPart(props) {
                     </React.Fragment>
                 )
             });
+
+            // if user made a mistake, number of mistakes is increased
             if (wrong) numberofMistakes++;
 
+            // HTML for question is displayed
             return (
                 <div key={idx} style={{ marginBottom: "1.6rem" }}>
                     <HeadingTertiary2 bottomMargin={2}>Postavy</HeadingTertiary2>
@@ -114,9 +128,11 @@ function TestResultsPart(props) {
                 </div>
             )
         }
-
+        // if question is of type PLOT
         if (question.type === "PLOT") {
+            // determines whether user composed plot badly
             let wrong = false;
+            // check whether user composed plot correctly
             for (let i = 0; i < question.plot.length; i++) {
                 if (question.plot[i].position !== i) {
                     wrong = true;
@@ -124,18 +140,23 @@ function TestResultsPart(props) {
                 }
             }
 
+            // if user didn't compose plot correctly, number of mistakes is increased
             if (wrong) numberofMistakes++;
 
+            // get array of plot parts
             let plot;
             if (wrong) {
+                // if user composed plot badly, plot is sorted
                 plot = [...question.plot].sort((a, b) => {
                     if (a.position < b.position) return -1;
                     return 1;
                 });
             } else {
+                // if user composed plot correctly, there is no need to sort plot
                 plot = question.plot;
             }
 
+            // HTML for question is displayed
             return (
                 <div key={idx} style={{ marginBottom: "1.6rem" }}>
                     <HeadingTertiary2 bottomMargin={2}>Seskládej děj</HeadingTertiary2>
@@ -167,6 +188,7 @@ function TestResultsPart(props) {
         }
     });
 
+    // render results to page
     return (
         <>
             {questions}

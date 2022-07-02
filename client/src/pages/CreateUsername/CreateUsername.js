@@ -15,41 +15,57 @@ import PageLayoutCentered from '../../components/PageLayoutCentered/PageLayoutCe
 import TextInput from '../../components/TextInput/TextInput';
 import { useAuth } from '../../contexts/AuthContext';
 
+// CREATE USERNAME PAGE
 function CreateUsername() {
     const auth = useAuth();
 
+    // holds username that the user writes into the text input
     const [username, setUsername] = useState("");
-
-    const [error, setError] = useState(null);
-    const [errors, setErrors] = useState({});
-
+    // errors
+    const [error, setError] = useState(null); // general error
+    const [errors, setErrors] = useState({}); // input errors (but on this page is just one input)
+    // determines whether username is being updated on server
     const [loading, setLoading] = useState(false);
 
+    // FUNCTION to submit username to server when user submits form
     const handleSubmit = async (e) => {
+        // prevent default behavior when form is submited
         e.preventDefault();
 
         try {
+            // username is being changed
             setLoading(true);
+            // send request to change username to server
             const res = await axios.patch(`${process.env.REACT_APP_API_URL}/users/username`, {}, {
                 params: {
                     username: username
                 },
                 ...auth.getHeaderConfig()
             });
+            // update logged in user (user has new username)
             auth.updateCurrentUser(res.data.user);
         } catch(err) {
+            // username is no longer being changed on server, because error has occured
             setLoading(false);
+
+            // get error data
             const errData = err.response.data;
+            // if there are any input errors
             if (errData?.errors) {
+                // set input errors
                 setErrors(errData.errors);
+                // unset general error
                 setError(null);
             } else {
+                // set general error
                 setError(errData.error);
+                // unset input errors
                 setErrors({});
             }
         }
     }
 
+    // render Create Username page
     return (
         <Page flex>
             <PageLayoutCentered>

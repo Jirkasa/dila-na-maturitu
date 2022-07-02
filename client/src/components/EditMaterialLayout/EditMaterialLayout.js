@@ -2,6 +2,7 @@ import './EditMaterialLayout.scss';
 
 import React from 'react';
 
+// LAYOUT FOR MATERIAL EDITATION
 function EditMaterialLayout(props) {
     return (
         <div className='EditMaterialLayout'>

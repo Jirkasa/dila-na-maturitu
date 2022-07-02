@@ -5,6 +5,9 @@ import Paragraph from '../Paragraph/Paragraph';
 import config from '../../config';
 import { Draggable } from 'react-beautiful-dnd';
 
+// COMPOSE PLOT INPUT PART
+// - represents part of COMPOSE PLOT INPUT
+// - this part can be dragged by user to reorder plot
 function ComposePlotInputPart(props) {
     return (
         <Draggable draggableId={""+props.id} index={props.idx}>

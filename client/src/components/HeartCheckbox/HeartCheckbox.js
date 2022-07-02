@@ -3,6 +3,8 @@ import './HeartCheckbox.scss';
 import React from 'react';
 import config from '../../config';
 
+// HEART CHECKBOX
+// - checkbox element that looks like heart
 function HeartCheckbox(props) {
     return (
         <div className='HeartCheckbox'>

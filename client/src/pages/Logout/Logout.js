@@ -11,28 +11,40 @@ import { useAuth } from '../../contexts/AuthContext';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import LoadPage from '../LoadPage/LoadPage';
 
+// LOGOUT PAGE
 function Logout() {
     const auth = useAuth();
+
+    // determines whether user is being logged out
     const [loading, setLoading] = useState(true);
+    // determines whether Error Page should be displayed
     const [isError, setIsError] = useState(false);
 
+    // called when page is rendered for the first time
     useEffect(() => {
         (async () => {
             try {
+                // logout user
                 await auth.logout();
+                // user has been logged out
                 setLoading(false);
             } catch(err) {
+                // if an error occured, Error Page is displayed
                 setIsError(true);
             }
         })();
     }, []);
 
+    // determines which page should be rendered
     let pageToRender;
     if (isError) {
+        // if an error occured, Error Page is displayed
         pageToRender = <ErrorPage/>;
     } else if (loading) {
+        // if user is being logged out, Loading Page is displayed
         pageToRender = <LoadPage/>;
     } else {
+        // if user has been succesfully logged out, Logout Page is displayed
         pageToRender = <Page flex>
             <PageLayoutCentered>
                 <CenteredText>
@@ -46,6 +58,7 @@ function Logout() {
         </Page>
     }
 
+    // render page
     return pageToRender;
 }
 

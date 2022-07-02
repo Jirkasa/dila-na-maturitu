@@ -19,7 +19,6 @@ import Test from './pages/Test/Test';
 import NoUser from './route-guards/NoUser';
 import RequireAuth from './route-guards/RequireAuth';
 
-// todo - create not found page
 function App() {
 	return (
 		<AuthProvider>

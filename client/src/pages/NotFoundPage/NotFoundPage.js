@@ -8,6 +8,8 @@ import Page from '../../components/Page/Page';
 import PageLayoutCentered from '../../components/PageLayoutCentered/PageLayoutCentered';
 import Paragraph from '../../components/Paragraph/Paragraph';
 
+// NOT FOUND PAGE
+// - can also be used in other pages to be displayed when something is not found
 function NotFoundPage() {
     return (
         <Page flex>

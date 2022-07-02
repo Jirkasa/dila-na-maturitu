@@ -5,6 +5,7 @@ import config from '../../config';
 import { Link } from 'react-router-dom';
 import { Collapse } from 'react-collapse';
 
+// NAVIGATION DROPDOWN
 function NavigationDropdown(props) {
     return (
         <div className='NavigationDropdown'>

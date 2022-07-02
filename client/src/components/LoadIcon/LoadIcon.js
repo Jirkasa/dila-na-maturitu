@@ -3,6 +3,7 @@ import './LoadIcon.scss';
 import React from 'react';
 import config from '../../config';
 
+// LOAD ICON
 function LoadIcon(props) {
     return (
         <div className={`LoadIcon ${props.small ? "LoadIcon--small" : ""}`}>

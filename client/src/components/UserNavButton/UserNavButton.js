@@ -3,6 +3,7 @@ import './UserNavButton.scss';
 import React from 'react';
 import config from '../../config';
 
+// BUTTON FOR LOGGED IN USER IN HEADER
 function UserNavButton(props) {
     return (
         <button onClick={props.toogleDropdown} className='UserNavButton'>

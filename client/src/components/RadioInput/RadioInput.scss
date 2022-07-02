@@ -32,7 +32,6 @@
             border-radius: 50%;
         }
 
-        // display 
         &::before {
             content: "";
             display: none;
@@ -57,7 +56,6 @@
 
         &:focus-visible {
             &::after {
-                // border-color: $color-primary;
                 border-width: .4rem;
             }
 

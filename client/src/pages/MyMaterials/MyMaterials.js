@@ -20,95 +20,139 @@ import config from '../../config';
 import { useAuth } from '../../contexts/AuthContext';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
+// MY MATERIALS PAGE
 function MyMaterials() {
     const auth = useAuth();
     
+    // determines whether materials are being loaded for the first time
     const [loading, setLoading] = useState(true);
+    // determines whether materials are being loaded
+    const [materialsLoading, setMaterialsLoading] = useState(false);
+
+    // determines whether Error Page should be displayed
     const [isError, setIsError] = useState(false);
 
-    const [materialsLoading, setMaterialsLoading] = useState(false);
+    // here is stored search text (if user wants to search materials)
     const [searchText, setSearchText] = useState("");
-    const [materials, setMaterials] = useState([]);
+    // here is stored page that the user is currently on
     const [currentPage, setCurrentPage] = useState(1);
+    // here is stored how many pages of materials there are
     const [pageCount, setPageCount] = useState(0);
 
+    // here are stored materials fetched from server
+    const [materials, setMaterials] = useState([]);
+
+    // FUNCTION to load materials from server
+    // - page = page to load materials for
+    // - search = text to filter materials (search for materials)
     const loadMaterials = async (page, search=searchText) => {
         try {
+            // materials are being fetched from server
             setMaterialsLoading(true);
 
+            // send request to get materials from server
             const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/${auth.currentUser.id}/materials`, {
                 params: {
-                    page: page,
-                    limit: config.MATERIAL_PAGE_SIZE,
-                    search: search
+                    page: page, // page to load materials for
+                    limit: config.MATERIAL_PAGE_SIZE, // max number of materials per page
+                    search: search // search text
                 },
                 ...auth.getHeaderConfig()
             });
 
+            // create new query parameters
             const queryParams = new URLSearchParams(window.location.search);
+            // set page parameter to query parameters
             queryParams.set("page", page);
+            // add or remove search parameter from query parameters
             if (search) {
                 queryParams.set("search", search);
             } else {
                 queryParams.delete("search");
             }
+            // change query parameters
             window.history.pushState(null, null, "?"+queryParams.toString());
 
+            // store fetched materials
             setMaterials(res.data.materials);
+
+            // store current page, search text and page count
             setCurrentPage(res.data.page);
             setSearchText(search);
             setPageCount(res.data.pageCount);
 
+            // materials have been fetched
             setMaterialsLoading(false);
             setLoading(false);
         } catch(err) {
+            // if an error occured, Error Page is displayed
             setIsError(true);
         }
     }
 
+    // FUNCTION to search for materials (load materials using search text)
     const handleSearch = (search) => loadMaterials(1, search);
 
+    // FUNCTION to clear search (load materials without search text)
     const clearSearch = () => loadMaterials(1, "");
 
+    // called when page is rendered for the first time
     useEffect(() => {
+        // create new query parameters
         const queryParams = new URLSearchParams(window.location.search);
+        // get page and search text from query parameters
         const page = queryParams.get("page") || currentPage;
         const search = queryParams.get("search") || searchText;
 
+        // load materials using page and search from query parameters
         loadMaterials(page, search);
     }, []);
 
+    // FUNCTION to like material
     const likeMaterial = async (materialId) => {
+        // create new array of materials (because state is going to be updated)
         const newMaterials = [...materials];
+         // update material that the user liked to be liked
         for (let material of newMaterials) {
             if (material.id === materialId) material.liked = true;
         }
+        // update state
         setMaterials(newMaterials);
 
         try {
+            // send request to like material
             await axios.post(`${process.env.REACT_APP_API_URL}/materials/${materialId}/like`, {}, auth.getHeaderConfig());
         } catch(err) {
+            // if an error occured, Error Page is displayed
             setIsError(true);
         }
     }
 
+    // FUNCTION to unlike material
     const unlikeMaterial = async (materialId) => {
+        // create new array of materials (because state is going to be updated)
         const newMaterials = [...materials];
+        // update material that the user unliked to be not liked
         for (let material of newMaterials) {
             if (material.id === materialId) material.liked = false;
         }
+        // update state
         setMaterials(newMaterials);
 
         try {
+            // send request to unlike material
             await axios.delete(`${process.env.REACT_APP_API_URL}/materials/${materialId}/like`, auth.getHeaderConfig());
         } catch(err) {
+            // if an error occured, Error Page is displayed
             setIsError(true);
         }
     }
 
 
+    // if an error occured, Error Page is rendered
     if (isError) return <ErrorPage/>;
 
+    // create material cards for materials to be rendered to page
     const materialCards = materials.map(mat => (
         <MaterialCard
             key={mat.id}
@@ -125,10 +169,13 @@ function MyMaterials() {
         />
     ));
 
+    // determine what should be displayed on page
     let html;
     if (loading) {
+        // if materials are being loaded for the first time, load icon is displayed
         html = <LoadIcon/>;
     } else if (!materialsLoading && materialCards.length === 0 && currentPage === 1 && searchText === "") {
+        // if user is on the first page and no materials are available, no materials have been created yet
         html = (
             <CenteredText>
                 <Paragraph bottomMargin={4}>Zatím ještě nemáš žádné vlastní materiály.</Paragraph>
@@ -137,6 +184,7 @@ function MyMaterials() {
             </CenteredText>
         );
     } else if (!materialsLoading && materialCards.length === 0 && currentPage === 1) {
+        // if user tried to search for materials, but nothing was found, message that nothing was found is displayed
         html = (
             <>
                 <CenteredFlexRow>
@@ -159,6 +207,7 @@ function MyMaterials() {
             </>
         );
     } else if (!materialsLoading && materialCards.length === 0 && currentPage !== 1) {
+        // if user is on a page other than the first one and no materials are available, message that there are no materials on this page is displayed
         html = (
             <CenteredText>
                 <Paragraph bottomMargin={4}>Na této stránce nic není.</Paragraph>
@@ -167,6 +216,7 @@ function MyMaterials() {
             </CenteredText>
         );
     } else {
+        // else material cards are displayed
         html = (
             <>
                 <CenteredFlexRow>
@@ -175,7 +225,7 @@ function MyMaterials() {
                 </CenteredFlexRow>
                 <VerticalSpace size={4}/>
                 {
-                    searchText &&
+                    searchText && // if user searched for materials, part to delete search is displayed
                     (
                         <>
                             <HorizontalRule bottomMargin={2}/>
@@ -205,6 +255,7 @@ function MyMaterials() {
         );
     }
 
+    // render My Materials page
     return (
         <Page flex>
             <PageLayoutLeft>

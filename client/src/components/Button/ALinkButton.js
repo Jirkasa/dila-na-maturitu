@@ -3,15 +3,18 @@ import './Button.scss';
 import React from 'react';
 import config from '../../config';
 
+// REPRESENTS BUTTON AS LINK
 function ALinkButton(props) {
+    // get icon name
     const { iconName } = props;
 
+    // get css classes based on props
     let cssClasses = "";
     cssClasses += props.smallText ? "Button--small-text" : "";
     cssClasses += props.fullWidth ? " Button--full-width" : "";
     cssClasses += props.outlined ? " Button--outlined" : "";
 
-    // If icon name is specified, display button with icon
+    // If icon name is specified, render button with icon
     if (iconName) {
         return (
             <a href={props.to} target="_blank" className={`Button Button--with-icon ${cssClasses}`}>
@@ -25,7 +28,7 @@ function ALinkButton(props) {
         );
     }
 
-    // display button (without icon)
+    // render button (without icon)
     return <a href={props.to} target="_blank" className={`Button ${cssClasses}`}>{props.children}</a>;
 }
 

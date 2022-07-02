@@ -5,10 +5,13 @@ import config from '../../config';
 import HeadingTertiary from '../../components/HeadingTertiary/HeadingTertiary';
 import ALinkButton from '../../components/Button/ALinkButton';
 
+// VIDEO SECTION FOR HOME PAGE
 function VideoSection(props) {
 
+    // get bottom margin value
     const bottomMargin = props.bottomMargin ? props.bottomMargin * 0.4 : 0;
 
+    // render video section to home page
     return (
         <div className='VideoSection' style={{ marginBottom: `${bottomMargin}rem` }}>
             <a href={props.videoURL} target="_blank" className='VideoSection__video'>

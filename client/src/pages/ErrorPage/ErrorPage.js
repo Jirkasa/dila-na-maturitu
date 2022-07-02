@@ -8,6 +8,8 @@ import Page from '../../components/Page/Page';
 import PageLayoutCentered from '../../components/PageLayoutCentered/PageLayoutCentered';
 import Paragraph from '../../components/Paragraph/Paragraph';
 
+// ERROR PAGE
+// - can be used in other pages to be displayed when an error occurs
 function ErrorPage() {
     return (
         <Page flex>

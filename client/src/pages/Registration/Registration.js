@@ -19,25 +19,34 @@ import LoadIcon from '../../components/LoadIcon/LoadIcon';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+// REGISTRATION PAGE
 function Registration() {
     const auth = useAuth();
     const navigate = useNavigate();
 
+    // form fields
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [errors, setErrors] = useState({});
-    const [confirmPasswordError, setConfirmPasswordError] = useState(null);
-    const [error, setError] = useState(null);
+    // errors
+    const [errors, setErrors] = useState({}); // input errors
+    const [confirmPasswordError, setConfirmPasswordError] = useState(null); // confirm password error (because this is not validated on server)
+    const [error, setError] = useState(null); // general error
 
+    // determines whether user is being registered
     const [loading, setLoading] = useState(false);
 
+    // FUNCTION to register (send form)
     const handleSubmit = async (e) => {
+        // prevent default behavior when form is sent
         e.preventDefault();
+
+        // if user is being registered, user can't send new request
         if (loading) return;
 
+        // if password and confirm password values don't equal, confirm password error is set
         if (password !== confirmPassword) {
             setConfirmPasswordError("Zadaná hesla se neshodují");
             setErrors({});
@@ -46,28 +55,38 @@ function Registration() {
         }
 
         try {
+            // user is being registered
             setLoading(true);
+            // send request to register user
             await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
                 username: username,
                 email: email,
                 password: password
             });
         } catch(err) {
+            // if an error occured, user is no longer being registered
             setLoading(false);
+
+            // get error data
             const errData = err.response.data;
+            // if there are any input errors
             if (errData?.errors) {
+                // set input errors
                 setErrors(errData.errors);
+                // unset other errors
                 setError(null);
                 setConfirmPasswordError(null);
             } else {
+                // set general error
                 setError(errData.error);
+                // unset other errors
                 setErrors({});
                 setConfirmPasswordError(null);
             }
             return;
         }
 
-        // login user after registration and redirect to home page
+        // login user after registration has been completed and redirect him to home page
         try {
             await auth.login(email, password);
             navigate("/");
@@ -77,6 +96,7 @@ function Registration() {
         }
     }
 
+    // render Registration page
     return (
         <Page flex>
             <PageLayoutCentered>

@@ -3,6 +3,7 @@ import './PageLayoutCentered.scss';
 import React from 'react';
 import ColumnPattern from '../ColumnPattern/ColumnPattern';
 
+// CENTERED PAGE LAYOUT
 function PageLayoutCentered(props) {
     return (
         <div className='PageLayoutCentered'>

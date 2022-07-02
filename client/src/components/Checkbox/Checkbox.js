@@ -3,6 +3,7 @@ import './Checkbox.scss';
 import React from 'react';
 import config from '../../config';
 
+// CHECKBOX
 function Checkbox(props) {
     return (
         <div className='Checkbox'>

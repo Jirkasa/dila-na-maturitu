@@ -1,8 +1,8 @@
 import './ButtonSecondary.scss';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 
+// REPRESENTS BUTTON AS LINK
 function ButtonSecondary(props) {
     return (
         <a href={props.to} className="ButtonSecondary">

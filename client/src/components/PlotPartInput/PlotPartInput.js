@@ -5,6 +5,9 @@ import { Draggable } from 'react-beautiful-dnd';
 import TextInput from '../TextInput/TextInput';
 import config from '../../config';
 
+// PLOT PART INPUT
+// - represent part of PLOT INPUT
+// - this part can be dragged by user to reorder plot
 function PlotPartInput(props) {
     return (
         <Draggable draggableId={props.id} index={props.index}>

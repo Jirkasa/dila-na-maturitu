@@ -8,6 +8,7 @@ import Page from '../../components/Page/Page';
 import PageLayoutCentered from '../../components/PageLayoutCentered/PageLayoutCentered';
 import Paragraph from '../../components/Paragraph/Paragraph';
 
+// ACCESS DENIED PAGE
 function AccessDeniedPage() {
     return (
         <Page flex>

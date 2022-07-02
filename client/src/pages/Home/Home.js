@@ -3,7 +3,6 @@ import './Home.scss';
 import React from 'react';
 import Page from '../../components/Page/Page';
 import Paragraph from '../../components/Paragraph/Paragraph';
-import Button from '../../components/Button/Button';
 import LinkButton from '../../components/Button/LinkButton';
 import HeadingPrimary from '../../components/HeadingPrimary/HeadingPrimary';
 import CenteredText from '../../components/CenteredText/CenteredText';
@@ -11,6 +10,7 @@ import ColumnPattern from '../../components/ColumnPattern/ColumnPattern';
 import VideoSection from './VideoSection';
 import Survey from '../../components/Survey/Survey';
 
+// HOME PAGE
 function Home() {
     return (
         <Page>

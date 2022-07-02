@@ -21,39 +21,58 @@ import TextLink from '../../components/TextLink/TextLink';
 import VerticalSpace from '../../components/VerticalSpace/VerticalSpace';
 import { useAuth } from '../../contexts/AuthContext';
 
+// LOGIN PAGE
 function Login() {
     const auth = useAuth();
     const navigate = useNavigate();
 
+    // form fields values
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const [error, setError] = useState(null);
-    const [errors, setErrors] = useState({});
+    // errors
+    const [error, setError] = useState(null); // general error
+    const [errors, setErrors] = useState({}); // input errors
     
+    // determines whether user is being logged in
     const [loading, setLoading] = useState(false);
 
+    // FUNCTION to login (send form)
     const handleSubmit = async (e) => {
+        // prevent default behavior when form is submited
         e.preventDefault();
+
+        // if user is being logged in, he can't send new request to log in
         if (loading) return;
 
         try {
+            // user is being logged in
             setLoading(true);
+            // login user
             await auth.login(email, password);
+            // redirect user to home page
             navigate("/");
         } catch(err) {
+            // if an error occured, user is no longer being logged in
             setLoading(false);
+            // get error data
             const errData = err.response.data;
+            // if there are any input errors
             if (errData?.errors) {
+                // set input errors
                 setErrors(errData.errors);
+                // unset general error
                 setError(null);
             } else {
+                // set general error
                 setError(errData.error);
+                // unset input errors
                 setErrors({});
             }
         }
     }
 
+    // render Login page
     return (
         <Page flex>
             <PageLayoutCentered>

@@ -5,8 +5,9 @@ import config from '../../config';
 import TextInput from '../TextInput/TextInput';
 import { Draggable } from 'react-beautiful-dnd';
 
+// REPRESENTS CHARACTER INPUT IN CHARACTERS INPUT
+// - user can drag this input to move character in characters input
 function CharacterInput(props) {
-
     return (
         <Draggable draggableId={props.id} index={props.index}>
             {(provided) => {
@@ -18,9 +19,18 @@ function CharacterInput(props) {
                     </div>
                     <div className='CharacterInput__inputs-part'>
                         <label htmlFor={`${props.id}-name`} className='CharacterInput__input-label'>Jméno postavy</label>
-                        <TextInput onChange={(e) => props.updateName(props.index, e.target.value)} id={`${props.id}-name`} value={props.characterName} bottomMargin={2}/>
+                        <TextInput
+                            onChange={(e) => props.updateName(props.index, e.target.value)}
+                            id={`${props.id}-name`}
+                            value={props.characterName}
+                            bottomMargin={2}
+                        />
                         <label htmlFor={`${props.id}-description`} className='CharacterInput__input-label'>Popis postavy</label>
-                        <TextInput onChange={(e) => props.updateDescription(props.index, e.target.value)} id={`${props.id}-description`} value={props.characterDescription}/>
+                        <TextInput
+                            onChange={(e) => props.updateDescription(props.index, e.target.value)}
+                            id={`${props.id}-description`}
+                            value={props.characterDescription}
+                        />
                     </div>
                     <button className='CharacterInput__remove-button' onClick={() => props.remove(props.index)}>
                         <svg>

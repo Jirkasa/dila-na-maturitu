@@ -4,6 +4,8 @@ import React from 'react';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
+// WRAPPER FOR PAGES
+// - contains header, footer and renders content of page
 function Page(props) {
     return (
         <div className='Page'>

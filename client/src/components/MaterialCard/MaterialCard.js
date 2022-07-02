@@ -10,16 +10,22 @@ import { Link } from 'react-router-dom';
 import config from '../../config';
 import Button from '../Button/Button';
 
+// MATERIAL CARD
+// - used on Materials and similar pages
 function MaterialCard(props) {
 
+    // FUNCTION to be called when user likes/dislikes material
     const handleLikeCheck = (e) => {
         if (e.target.checked) {
+            // if heart checkbox is checked, like function is called
             props.like(props.id);
         } else {
+            // if heart checkbox is not checked, unlike function is called
             props.unlike(props.id);
         }
     }
 
+    // render Material Card
     return (
         <div className='MaterialCard'>
             <div className='MaterialCard__main-side'>

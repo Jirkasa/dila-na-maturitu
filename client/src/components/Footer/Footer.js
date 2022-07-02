@@ -2,6 +2,8 @@ import './Footer.scss';
 
 import React from 'react';
 
+// FOOTER
+// - displayed at the bottom of every page
 function Footer() {
     return (
         <footer className='Footer'>

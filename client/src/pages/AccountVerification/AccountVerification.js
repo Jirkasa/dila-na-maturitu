@@ -12,36 +12,56 @@ import Paragraph from '../../components/Paragraph/Paragraph';
 import { useAuth } from '../../contexts/AuthContext';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
+// ACCOUNT VERIFICATION PAGE
+// - tells user that his account is not verified and allows to send new verification email
 function AccountVerification() {
     const auth = useAuth();
 
-    const [newTokenSent, setNewTokenSent] = useState(false);
+    // determines whether new token is being sent
     const [loading, setLoading] = useState(false);
+    // determines whether an error occured
     const [isError, setIsError] = useState(false);
+    // determines whether new token was sent
+    const [newTokenSent, setNewTokenSent] = useState(false);
 
+    // FUNCTION to send new verification email
     const sendNewVerificationToken = async () => {
         try {
+            // new verification email is being sent
             setLoading(true);
+
+            // send new verification email
             await axios.post(`${process.env.REACT_APP_API_URL}/users/resend-verification-token`, {}, auth.getHeaderConfig());
+
+            // new verification email has been sent
             setNewTokenSent(true);
             setLoading(false);
         } catch(err) {
+            // if user has already been verified
             if (err.response.status === 409) {
                 try {
+                    // get user by id from server
                     const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/${auth.currentUser.id}`, auth.getHeaderConfig());
+                    // update logged in user (verification page disappears, because user is verified now)
                     auth.updateCurrentUser(res.data.user);
                 } catch(err) {
+                    // if something went wrong, error page is set
                     setIsError(true);
                 }
                 return;
             }
+
+            // error page is set
             setIsError(true);
             setLoading(false);
         }
     }
 
+
+    // if error occured, display error page
     if (isError) return <ErrorPage/>;
 
+    // render verification page
     return (
         <Page flex>
             <PageLayoutCentered>
