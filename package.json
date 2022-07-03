@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/Jirkasa/dila-na-maturitu/issues"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "homepage": "https://github.com/Jirkasa/dila-na-maturitu#readme"
 }
