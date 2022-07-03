@@ -55,4 +55,6 @@
 .HeaderContainer {
     height: $header-height;
     background-color: $color-grey-80;
+
+    @media print { display: none; }
 }

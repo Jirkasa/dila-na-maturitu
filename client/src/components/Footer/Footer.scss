@@ -11,6 +11,8 @@
 
     padding: .8rem $page-margin;
 
+    @media print { display: none; }
+
     &__link {
         &:link, &:visited {
             text-decoration: none;
