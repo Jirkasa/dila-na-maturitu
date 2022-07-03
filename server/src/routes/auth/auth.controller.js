@@ -43,8 +43,6 @@ passport.use(new JwtStrategy({
     }
 }));
 
-// TODO - zatím jsem do Googlu předal svůj email, ale to rozhodně změním než tu aplikaci vydám - asi si na to vytvořím nový google účet
-
 // STRATEGY FOR AUTHENTICATION USING GOOGLE
 passport.use(new GoogleStrategy({
     callbackURL: '/v1/auth/google-login/callback',
