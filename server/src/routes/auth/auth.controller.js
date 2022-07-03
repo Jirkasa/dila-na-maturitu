@@ -45,7 +45,7 @@ passport.use(new JwtStrategy({
 
 // STRATEGY FOR AUTHENTICATION USING GOOGLE
 passport.use(new GoogleStrategy({
-    callbackURL: '/v1/auth/google-login/callback',
+    callbackURL: `${process.env.SERVER_URL}/v1/auth/google-login/callback`,
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET
 }, async (accessToken, refreshToken, profile, done) => {

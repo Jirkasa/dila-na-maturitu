@@ -12,7 +12,7 @@ const sequelize = require('./services/database');
 
 // create server
 const PORT = process.env.PORT || 8000;
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 // -------------- SET RELATIONS -----------------
 User.hasOne(VerificationToken, {
@@ -54,7 +54,7 @@ async function startServer() {
         // .sync({ force: true }); // NOTE - call sync with force argument when something is changed in models or relations
     
         // start server
-        server.listen(PORT, () => {
+        app.listen(PORT, () => {
             console.log(`Listening on port ${PORT}...`);
         });
     } catch(err) {

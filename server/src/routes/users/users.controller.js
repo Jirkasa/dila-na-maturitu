@@ -115,23 +115,46 @@ async function getMaterials(req, res) {
 
     try {
         // fetch materials from database with info whether user likes material or not
-        const materials = await sequelize.query(`
-        SELECT
-            \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, \`likes\`.\`userId\` IS NOT NULL AS "liked"
-        FROM \`materials\` AS \`material\`
-        LEFT OUTER JOIN
-            \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
-        WHERE \`material\`.\`materialAuthorId\` = :userId AND (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search)
-        ORDER BY \`material\`.\`title\` ASC, \`material\`.\`id\` ASC LIMIT :skip, :limit;
-        `, {
-            replacements: {
-                search: searchText+"%",
-                skip: pagination.skip,
-                limit: pagination.limit,
-                userId: req.user.id
-            },
-            type: QueryTypes.SELECT
-        });
+        let materials;
+        if (process.env.DEV_MODE === "true") {
+            // - for development, MySQL syntax is used
+            materials = await sequelize.query(`
+            SELECT
+                \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, \`likes\`.\`userId\` IS NOT NULL AS "liked"
+            FROM \`materials\` AS \`material\`
+            LEFT OUTER JOIN
+                \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
+            WHERE \`material\`.\`materialAuthorId\` = :userId AND (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search)
+            ORDER BY \`material\`.\`title\` ASC, \`material\`.\`id\` ASC LIMIT :skip, :limit;
+            `, {
+                replacements: {
+                    search: searchText+"%",
+                    skip: pagination.skip,
+                    limit: pagination.limit,
+                    userId: req.user.id
+                },
+                type: QueryTypes.SELECT
+            });
+        } else {
+            // - for production, Postgres syntax is used
+            materials = await sequelize.query(`
+            SELECT
+                "material"."id", "material"."title", "material"."author", "material"."testable", "likes"."userId" IS NOT NULL AS "liked"
+            FROM "materials" AS "material"
+            LEFT OUTER JOIN
+                "likes" ON "likes"."userId" = :userId AND "material"."id" = "likes"."materialId"
+            WHERE "material"."materialAuthorId" = :userId AND ("material"."title" LIKE :search OR "material"."author" LIKE :search)
+            ORDER BY "material"."title" ASC, "material"."id" ASC LIMIT :limit OFFSET :skip;
+            `, {
+                replacements: {
+                    search: searchText+"%",
+                    skip: pagination.skip,
+                    limit: pagination.limit,
+                    userId: req.user.id
+                },
+                type: QueryTypes.SELECT
+            });
+        }
 
         // send materials to client
         return res.status(200).json({
@@ -141,6 +164,7 @@ async function getMaterials(req, res) {
             pageCount: pagination.pageCount
         });
     } catch(err) {
+        console.log(err);
         // if something went wrong, error is sent
         return res.status(500).json({});
     }
@@ -160,21 +184,41 @@ async function getLikedMaterials(req, res) {
     // count number of user liked material
     let rowCount;
     try {
-        rowCount = await sequelize.query(`
-        SELECT
-            COUNT(*) AS count
-        FROM \`materials\` AS \`material\`
-        INNER JOIN
-            \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
-        WHERE (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search);
-        `, {
-            replacements: {
-                search: searchText+"%",
-                userId: req.user.id
-            },
-            type: QueryTypes.SELECT
-        })
+        if (process.env.DEV_MODE === "true") {
+            // - for development, MySQL syntax is used
+            rowCount = await sequelize.query(`
+            SELECT
+                COUNT(*) AS count
+            FROM \`materials\` AS \`material\`
+            INNER JOIN
+                \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
+            WHERE (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search);
+            `, {
+                replacements: {
+                    search: searchText+"%",
+                    userId: req.user.id
+                },
+                type: QueryTypes.SELECT
+            });
+        } else {
+            // - for production, Postgres syntax is used
+            rowCount = await sequelize.query(`
+            SELECT
+                COUNT(*) AS count
+            FROM "materials" AS "material"
+            INNER JOIN
+                "likes" ON "likes"."userId" = :userId AND "material"."id" = "likes"."materialId"
+            WHERE ("material"."title" LIKE :search OR "material"."author" LIKE :search);
+            `, {
+                replacements: {
+                    search: searchText+"%",
+                    userId: req.user.id
+                },
+                type: QueryTypes.SELECT
+            });
+        }
     } catch(err) {
+        console.log(err);
         // if something went wrong, error is sent
         return res.status(500).json({});
     }
@@ -184,23 +228,46 @@ async function getLikedMaterials(req, res) {
 
     try {
         // fetch liked materials from database
-        const materials = await sequelize.query(`
-        SELECT
-            \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, true AS "liked"
-        FROM \`materials\` AS \`material\`
-        INNER JOIN
-            \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
-        WHERE (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search)
-            ORDER BY \`material\`.\`title\` ASC, \`material\`.\`id\` ASC LIMIT :skip, :limit;
-        `, {
-            replacements: {
-                search: searchText+"%",
-                skip: pagination.skip,
-                limit: pagination.limit,
-                userId: req.user.id
-            },
-            type: QueryTypes.SELECT
-        });
+        let materials;
+        if (process.env.DEV_MODE === "true") {
+            // - for development, MySQL syntax is used
+            materials = await sequelize.query(`
+            SELECT
+                \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, true AS "liked"
+            FROM \`materials\` AS \`material\`
+            INNER JOIN
+                \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
+            WHERE (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search)
+                ORDER BY \`material\`.\`title\` ASC, \`material\`.\`id\` ASC LIMIT :skip, :limit;
+            `, {
+                replacements: {
+                    search: searchText+"%",
+                    skip: pagination.skip,
+                    limit: pagination.limit,
+                    userId: req.user.id
+                },
+                type: QueryTypes.SELECT
+            });
+        } else {
+            // - for production, Postgres syntax is used
+            materials = await sequelize.query(`
+            SELECT
+                "material"."id", "material"."title", "material"."author", "material"."testable", true AS "liked"
+            FROM "materials" AS "material"
+            INNER JOIN
+                "likes" ON "likes"."userId" = :userId AND "material"."id" = "likes"."materialId"
+            WHERE ("material"."title" LIKE :search OR "material"."author" LIKE :search)
+                ORDER BY "material"."title" ASC, "material"."id" ASC LIMIT :limit OFFSET :skip;
+            `, {
+                replacements: {
+                    search: searchText+"%",
+                    skip: pagination.skip,
+                    limit: pagination.limit,
+                    userId: req.user.id
+                },
+                type: QueryTypes.SELECT
+            });
+        }
 
         // send materials to client
         return res.status(200).json({
@@ -210,6 +277,7 @@ async function getLikedMaterials(req, res) {
             pageCount: pagination.pageCount
         });
     } catch(err) {
+        console.log(err);
         // if something went wrong, error is sent
         return res.status(500).json({});
     }

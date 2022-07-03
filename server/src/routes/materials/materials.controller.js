@@ -139,25 +139,49 @@ async function getMaterials(req, res) {
 
         if (loggedInUserId !== null) {
             // if user is logged in, materials are fetched from database with info about whether user likes material or not
-            materials = await sequelize.query(`
-            SELECT
-                \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, \`user\`.\`username\` AS \`user.username\`, \`likes\`.\`userId\` IS NOT NULL AS "liked"
-            FROM \`materials\` AS \`material\`
-            LEFT OUTER JOIN
-                \`users\` AS \`user\` ON \`material\`.\`materialAuthorId\` = \`user\`.\`id\`
-            LEFT OUTER JOIN
-                \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
-            WHERE (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search)
-            ORDER BY \`material\`.\`title\` ASC, \`material\`.\`id\` ASC LIMIT :skip, :limit;
-            `, {
-                replacements: {
-                    search: searchText+"%",
-                    skip: pagination.skip,
-                    limit: pagination.limit,
-                    userId: loggedInUserId
-                },
-                type: QueryTypes.SELECT
-            });
+            if (process.env.DEV_MODE === "true") {
+                // - for development, MySQL syntax is used
+                materials = await sequelize.query(`
+                SELECT
+                    \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, \`user\`.\`username\` AS \`user.username\`, \`likes\`.\`userId\` IS NOT NULL AS "liked"
+                FROM \`materials\` AS \`material\`
+                LEFT OUTER JOIN
+                    \`users\` AS \`user\` ON \`material\`.\`materialAuthorId\` = \`user\`.\`id\`
+                LEFT OUTER JOIN
+                    \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
+                WHERE (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search)
+                ORDER BY \`material\`.\`title\` ASC, \`material\`.\`id\` ASC LIMIT :skip, :limit;
+                `, {
+                    replacements: {
+                        search: searchText+"%",
+                        skip: pagination.skip,
+                        limit: pagination.limit,
+                        userId: loggedInUserId
+                    },
+                    type: QueryTypes.SELECT
+                });
+            } else {
+                // - for production, Postgres syntax is used
+                materials = await sequelize.query(`
+                SELECT
+                    "material"."id", "material"."title", "material"."author", "material"."testable", "user"."username" AS "user.username", "likes"."userId" IS NOT NULL AS "liked"
+                FROM "materials" AS "material"
+                LEFT OUTER JOIN
+                    "users" AS "user" ON "material"."materialAuthorId" = "user"."id"
+                LEFT OUTER JOIN
+                    "likes" ON "likes"."userId" = :userId AND "material"."id" = "likes"."materialId"
+                WHERE ("material"."title" LIKE :search OR "material"."author" LIKE :search)
+                ORDER BY "material"."title" ASC, "material"."id" ASC LIMIT :limit OFFSET :skip;
+                `, {
+                    replacements: {
+                        search: searchText+"%",
+                        skip: pagination.skip,
+                        limit: pagination.limit,
+                        userId: loggedInUserId
+                    },
+                    type: QueryTypes.SELECT
+                });
+            }
         } else {
             // if user is not logged in, materials are fetched from database without info about whether user likes material or not
             materials = await Material.findAll({
@@ -200,6 +224,7 @@ async function getMaterials(req, res) {
             pageCount: pagination.pageCount
         });
     } catch(err) {
+        console.log(err);
         // if something went wrong, error is sent
         return res.status(500).json({});
     }
