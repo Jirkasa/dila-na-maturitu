@@ -44,7 +44,7 @@
             outline-color: $color-grey-40;
 
             @include respond(tab-port) {
-                display: inline-block;
+                display: block;
                 margin-bottom: .8rem;
             }
         }

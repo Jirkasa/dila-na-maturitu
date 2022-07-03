@@ -187,7 +187,7 @@ function MyMaterials() {
         // if user tried to search for materials, but nothing was found, message that nothing was found is displayed
         html = (
             <>
-                <CenteredFlexRow>
+                <CenteredFlexRow withBreakpoint>
                     <LinkButton iconName="icon-plus" to="/vytvoreni-materialu">Vytvořit materiál</LinkButton>
                     <SearchBar search={handleSearch} placeholder="Vyhledat materiál..."/>
                 </CenteredFlexRow>
@@ -219,7 +219,7 @@ function MyMaterials() {
         // else material cards are displayed
         html = (
             <>
-                <CenteredFlexRow>
+                <CenteredFlexRow withBreakpoint>
                     <LinkButton iconName="icon-plus" to="/vytvoreni-materialu">Vytvořit materiál</LinkButton>
                     <SearchBar search={handleSearch} placeholder="Vyhledat materiál..."/>
                 </CenteredFlexRow>

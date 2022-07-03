@@ -1,4 +1,5 @@
 @import '../../sass/variables.scss';
+@import '../../sass/mixins.scss';
 
 .EditMaterialLayout {
     margin: 0 auto;
@@ -7,6 +8,11 @@
     display: grid;
     grid-template-columns: $column-grid-12;
     gap: $grid-gutter;
+
+    @include respond(tab-port) {
+        display: flex;
+        flex-direction: column-reverse;
+    }
 
     &__left-side {
         grid-column: 1 / span 7;
@@ -19,5 +25,13 @@
     &__options {
         position: sticky;
         top: 1.6rem + $header-height;
+
+        overflow-y: auto;
+        max-height: calc(100vh - #{$header-height} - 1.6rem);
+
+        @include respond(tab-port) {
+            max-height: none;
+            border-bottom: .4rem solid $color-grey-20;
+        }
     }
 }

@@ -30,7 +30,7 @@ function MaterialCard(props) {
         <div className='MaterialCard'>
             <div className='MaterialCard__main-side'>
                 <HeadingTertiary red bottomMargin={2}>{props.title}</HeadingTertiary>
-                <SpaceBetweenFlexRow>
+                <SpaceBetweenFlexRow withBreakpoint>
                     <h4 className='MaterialCard__author'>{props.author}</h4>
                     {props.showLikeOption && <HeartCheckbox checked={props.liked} onChange={handleLikeCheck}/>}
                 </SpaceBetweenFlexRow>

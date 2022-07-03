@@ -1,4 +1,5 @@
 @import '../../sass/variables.scss';
+@import '../../sass/mixins.scss';
 
 .PageLayoutLeft {
     padding: 0 3.2rem;
@@ -16,11 +17,23 @@
         margin: 0 auto;
 
         flex-grow: 2;
+
+        @include respond(tab-port) {
+            gap: 0;
+
+            .ColumnPattern {
+                display: none;
+            }
+        }
     }
 
     &__content {
         grid-column: span 10;
 
         padding: 3.2rem 0;
+
+        @include respond(tab-port) {
+            grid-column: span 12;
+        }
     }
 }

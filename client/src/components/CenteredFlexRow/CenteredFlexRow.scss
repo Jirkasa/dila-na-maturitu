@@ -1,8 +1,18 @@
+@import '../../sass/mixins.scss';
+
 .CenteredFlexRow {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1.6rem;
+
+    &--with-breakpoint {
+        @media (max-width: pxToEm(700)) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+
 
     &--small-gap {
         gap: .8rem;

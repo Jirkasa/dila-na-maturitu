@@ -6,7 +6,7 @@ import React from 'react';
 // - components are centered
 function CenteredFlexRow(props) {
     return (
-        <div className={`CenteredFlexRow ${props.smallGap ? "CenteredFlexRow--small-gap" : ""}`}>{props.children}</div>
+        <div className={`CenteredFlexRow ${props.smallGap ? "CenteredFlexRow--small-gap" : ""} ${props.withBreakpoint ? "CenteredFlexRow--with-breakpoint" : ""}`}>{props.children}</div>
     );
 }
 

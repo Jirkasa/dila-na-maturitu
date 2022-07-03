@@ -1,4 +1,5 @@
 @import '../../sass/variables.scss';
+@import '../../sass/mixins.scss';
 
 .MaterialCard {
     background-color: $color-grey-20;
@@ -9,9 +10,17 @@
 
     display: flex;
 
+    @media (max-width: pxToEm(800)) {
+        flex-direction: column;
+    }
+
     &__main-side {
         padding: 2.4rem;
         flex: 2;
+
+        @media (max-width: pxToEm(500)) {
+            text-align: center;
+        }
     }
 
     &__options-side {
@@ -25,8 +34,19 @@
         display: flex;
         gap: 3.2rem;
 
-        border-top-right-radius: .2rem;
-        border-bottom-right-radius: .2rem;
+        border-radius:  0 .2rem .2rem 0;
+
+        @media (max-width: pxToEm(800)) {
+            clip-path: polygon(0 2rem, 100% 0, 100% 100%, 0 100%);
+            padding-left: 2.4rem;
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            padding-top: 4.4rem;
+
+            border-radius: 0 0 .2rem .2rem;
+        }
     }
 
     &__options {
@@ -34,6 +54,13 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 1.6rem;
+
+        @media (max-width: pxToEm(800)) {
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
     }
 
     &__option {
@@ -81,6 +108,13 @@
         display: flex;
         flex-direction: column;
         gap: 2.4rem;
+
+        @media (max-width: pxToEm(800)) {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
     }
 
     &__author {

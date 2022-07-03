@@ -1,4 +1,5 @@
 @import '../../sass/variables.scss';
+@import '../../sass/mixins.scss';
 
 .Form {
     display: grid;
@@ -7,5 +8,9 @@
 
     form {
         grid-column: 2 / span 6;
+
+        @include respond(phone) {
+            grid-column: span 8;
+        }
     }
 }

@@ -1,6 +1,14 @@
+@import '../../sass/mixins.scss';
+
 .SpaceBetweenFlexRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1.6rem;
+
+    &--with-breakpoint {
+        @media (max-width: pxToEm(500)) {
+            flex-direction: column;
+        }
+    }
 }
