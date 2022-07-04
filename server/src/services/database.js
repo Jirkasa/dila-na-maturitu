@@ -5,7 +5,7 @@ let sequelize;
 if (process.env.DEV_MODE === "true") {
     // connect to MySQL database for development
     sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
-        dialect: process.env.DATABASE_DIALECT,
+        dialect: "mysql",
         host: process.env.DATABASE_HOST
     });
 } else {
