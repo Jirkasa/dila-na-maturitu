@@ -139,7 +139,7 @@ function LikedMaterials() {
             title={mat.title}
             author={mat.author}
             testable={mat.testable}
-            materialAuthor={auth.currentUser.username}
+            materialAuthor={mat["user.username"]}
             showLikeOption
             liked={mat.liked}
             unlike={unlikeMaterial}

@@ -233,8 +233,10 @@ async function getLikedMaterials(req, res) {
             // - for development, MySQL syntax is used
             materials = await sequelize.query(`
             SELECT
-                \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, true AS "liked"
+                \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`user\`.\`username\` AS \`user.username\`, \`material\`.\`testable\`, true AS "liked"
             FROM \`materials\` AS \`material\`
+            LEFT OUTER JOIN
+                    \`users\` AS \`user\` ON \`material\`.\`materialAuthorId\` = \`user\`.\`id\`
             INNER JOIN
                 \`likes\` ON \`likes\`.\`userId\` = :userId AND \`material\`.\`id\` = \`likes\`.\`materialId\`
             WHERE (\`material\`.\`title\` LIKE :search OR \`material\`.\`author\` LIKE :search)
@@ -252,8 +254,10 @@ async function getLikedMaterials(req, res) {
             // - for production, Postgres syntax is used
             materials = await sequelize.query(`
             SELECT
-                "material"."id", "material"."title", "material"."author", "material"."testable", true AS "liked"
+                "material"."id", "material"."title", "material"."author", "user"."username" AS "user.username", "material"."testable", true AS "liked"
             FROM "materials" AS "material"
+            LEFT OUTER JOIN
+                    "users" AS "user" ON "material"."materialAuthorId" = "user"."id"
             INNER JOIN
                 "likes" ON "likes"."userId" = :userId AND "material"."id" = "likes"."materialId"
             WHERE ("material"."title" LIKE :search OR "material"."author" LIKE :search)
