@@ -116,8 +116,7 @@ async function getMaterials(req, res) {
     try {
         // fetch materials from database with info whether user likes material or not
         let materials;
-        if (process.env.DEV_MODE === "true") {
-            // - for development, MySQL syntax is used
+        if (process.env.USE_POSTGRESS === "true") {
             materials = await sequelize.query(`
             SELECT
                 \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, \`likes\`.\`userId\` IS NOT NULL AS "liked"
@@ -136,7 +135,7 @@ async function getMaterials(req, res) {
                 type: QueryTypes.SELECT
             });
         } else {
-            // - for production, Postgres syntax is used
+            // - previously, Postgress was used on Heroku, but it is no longer free
             materials = await sequelize.query(`
             SELECT
                 "material"."id", "material"."title", "material"."author", "material"."testable", "likes"."userId" IS NOT NULL AS "liked"
@@ -184,8 +183,7 @@ async function getLikedMaterials(req, res) {
     // count number of user liked material
     let rowCount;
     try {
-        if (process.env.DEV_MODE === "true") {
-            // - for development, MySQL syntax is used
+        if (process.env.USE_POSTGRESS === "true") {
             rowCount = await sequelize.query(`
             SELECT
                 COUNT(*) AS count
@@ -201,7 +199,7 @@ async function getLikedMaterials(req, res) {
                 type: QueryTypes.SELECT
             });
         } else {
-            // - for production, Postgres syntax is used
+            // - previously, Postgress was used on Heroku, but it is no longer free
             rowCount = await sequelize.query(`
             SELECT
                 COUNT(*) AS count
@@ -229,8 +227,7 @@ async function getLikedMaterials(req, res) {
     try {
         // fetch liked materials from database
         let materials;
-        if (process.env.DEV_MODE === "true") {
-            // - for development, MySQL syntax is used
+        if (process.env.USE_POSTGRESS === "true") {
             materials = await sequelize.query(`
             SELECT
                 \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`user\`.\`username\` AS \`user.username\`, \`material\`.\`testable\`, true AS "liked"
@@ -251,7 +248,7 @@ async function getLikedMaterials(req, res) {
                 type: QueryTypes.SELECT
             });
         } else {
-            // - for production, Postgres syntax is used
+            // - previously, Postgress was used on Heroku, but it is no longer free
             materials = await sequelize.query(`
             SELECT
                 "material"."id", "material"."title", "material"."author", "user"."username" AS "user.username", "material"."testable", true AS "liked"

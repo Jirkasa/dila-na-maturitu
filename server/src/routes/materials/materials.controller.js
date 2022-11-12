@@ -139,8 +139,7 @@ async function getMaterials(req, res) {
 
         if (loggedInUserId !== null) {
             // if user is logged in, materials are fetched from database with info about whether user likes material or not
-            if (process.env.DEV_MODE === "true") {
-                // - for development, MySQL syntax is used
+            if (process.env.USE_POSTGRESS === "true") {
                 materials = await sequelize.query(`
                 SELECT
                     \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, \`user\`.\`username\` AS \`user.username\`, \`likes\`.\`userId\` IS NOT NULL AS "liked"
@@ -161,7 +160,7 @@ async function getMaterials(req, res) {
                     type: QueryTypes.SELECT
                 });
             } else {
-                // - for production, Postgres syntax is used
+                // - previously, Postgress was used on Heroku, but it is no longer free
                 materials = await sequelize.query(`
                 SELECT
                     "material"."id", "material"."title", "material"."author", "material"."testable", "user"."username" AS "user.username", "likes"."userId" IS NOT NULL AS "liked"
