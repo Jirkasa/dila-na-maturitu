@@ -1,6 +1,6 @@
 # Díla na maturitu
 
-Tento projekt je web, který obsahuje materiály na ústní maturitu z češtiny. Můžete se na něj podívat __[zde](https://dila-na-maturitu.herokuapp.com/)__. Rozhodl jsem se jej vytvořit, protože jsem se potřeboval naučit na ústní maturitu z češtiny. Nechtěl jsem se tyto zbytečné věci učit jen tak, proto mě napadlo vytvořit web, prostřednictvím kterého bych zároveň pomohl připravit se na ústní maturitu z češtiny i jiným lidem.
+Tento projekt je web, který obsahuje materiály na ústní maturitu z češtiny. Můžete se na něj podívat __[zde](https://dila-na-maturitu.cz/)__. Rozhodl jsem se jej vytvořit, protože jsem se potřeboval naučit na ústní maturitu z češtiny. Nechtěl jsem se tyto zbytečné věci učit jen tak, proto mě napadlo vytvořit web, prostřednictvím kterého bych zároveň pomohl připravit se na ústní maturitu z češtiny i jiným lidem.
 
 Protože mi na tomto webu zas tak moc nezáleží a chtěl jsem jeho tvorbou hlavně získat zkušenosti, tak jsem se rozhodl nastavit tento repozitář jako veřejný abyste si mohli prohlédnout zdrojový kód. Můžete se podívat i na kód pro server. Věřím že pokud v mém kódu najdete nějakou slabinu týkající se zabezpečení, tak mi o ní napíšete a nebudete jí využívat. Server je naprogramovaný v NodeJS a frontend v Reactu.
 
@@ -83,7 +83,8 @@ Nakonec je potřeba nakonfigurovat backend. Ve složce server se nachází soubo
 | RESET_PASSWORD_TOKEN_SECRET | tajná hodnota pro generování tokenů pro reset hesla                    |
 | GOOGLE_CLIENT_ID | Client ID pro přihlášení pres Google (toto nemusíte vyplňovat a prostě se přes Google nepřihlašovat) |
 | GOOGLE_CLIENT_SECRET | tajná hodnota pro přihlášení přes Google (toto nemusíte vyplňovat a prostě se přes Google nepřihlašovat) |
-| DEV_MODE        | určuje jestli má aplikace běžet v módu pro vývoj                                   |
+| DEV_MODE        | určuje, jestli má aplikace běžet v módu pro vývoj                                  |
+| USE_POSTGRESS   | určuje, jestli se má použít postgres namísto mysql                                 |
 | SMTP_USER       | SMTP User pro zasílání emailů                                                      |
 | SMTP_KEY        | SMTP Key pro zasílání emailů                                                       |
 | SERVER_URL      | URL na kterém aplikace běží                                                        |
