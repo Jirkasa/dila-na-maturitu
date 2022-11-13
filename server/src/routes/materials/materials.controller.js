@@ -139,7 +139,7 @@ async function getMaterials(req, res) {
 
         if (loggedInUserId !== null) {
             // if user is logged in, materials are fetched from database with info about whether user likes material or not
-            if (process.env.USE_POSTGRESS === "true") {
+            if (process.env.USE_POSTGRESS !== "true") {
                 materials = await sequelize.query(`
                 SELECT
                     \`material\`.\`id\`, \`material\`.\`title\`, \`material\`.\`author\`, \`material\`.\`testable\`, \`user\`.\`username\` AS \`user.username\`, \`likes\`.\`userId\` IS NOT NULL AS "liked"

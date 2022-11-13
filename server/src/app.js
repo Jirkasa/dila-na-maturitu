@@ -8,6 +8,16 @@ const helmet = require("helmet");
 // create new express app
 const app = express();
 
+// redirect www to non-www
+app.set("trust proxy", true);
+app.use((req, res, next) => {
+    if (req.headers.host.slice(0, 4) === "www.") {
+        var newHost = req.headers.host.slice(4);
+        return res.redirect(301, req.protocol + "://" + newHost + req.originalUrl);
+    }
+    next();
+});
+
 // set various http headers for better security
 app.use(helmet());
 // parse body
