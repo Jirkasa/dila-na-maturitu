@@ -17,8 +17,8 @@ function Home() {
             <section className='Home__intro-section'>
                 <div>
                     <div className='Home__intro-section-content'>
-                        <h1 className='Home__intro-headline'>Prozkoumej spoustu materiálů na ústní maturitu z češtiny</h1>
-                        <Paragraph bottomMargin={8}>Potřebuješ se naučit na ústní maturitu z češtiny? Tak to jsi tu správně. Najdeš tu spoustu materiálů, které ti v tom mohou pomoct. Hlavně se to ale uč jen natolik, abys udělal/a maturitu, protože v reálném životě to stejně vůbec nevyužiješ. Po maturitě by tě potom mohlo štvát, že jsi ten čas nevěnoval/a něčemu smysluplnějšímu...</Paragraph>
+                        <h1 className='Home__intro-headline'>Prozkoumej materiály na ústní maturitu z češtiny</h1>
+                        <Paragraph bottomMargin={8}>Potřebuješ se naučit na ústní maturitu z češtiny? Tak to jsi tu správně. Najdeš tu materiály, které ti v tom mohou pomoct. Hlavně se to ale uč jen natolik, abys udělal/a maturitu, protože v reálném životě to stejně vůbec nevyužiješ. Po maturitě by tě potom mohlo štvát, že jsi ten čas nevěnoval/a něčemu smysluplnějšímu...</Paragraph>
                         <LinkButton iconName="icon-search" to="/materialy">Prozkoumat materiály</LinkButton>
                     </div>
                 </div>
@@ -30,11 +30,9 @@ function Home() {
                         <CenteredText>
                             <HeadingPrimary bottomMargin={6} asH2>Proč jsem tento web vytvořil</HeadingPrimary>
                         </CenteredText>
-                        <Paragraph bottomMargin={4}>Tento web jsem se rozhodl vytvořit, protože jsem se potřeboval naučit na ústní maturitu z češtiny. Nechtěl jsem se ale tyto bezvýznamné věci učit jen kvůli maturitě. Chtěl jsem po sobě alespoň něco zanechat když už jsem se to měl učit. Napadlo mě tedy vytvořit tento web, abych tak mohl pomoct naučit se na ústní maturitu z češtiny i jiným lidem a měl pocit že dělám něco smysluplného, než že se jen něco slepě učím, protože to po mě někdo chce.</Paragraph>
-                        <Paragraph bottomMargin={4}>Je podle mě důležité si uvědomit, že i když se nás ve škole snaží učit spoustu věcí, které vůbec nepotřebujeme znát a jsou pro nás zbytečné, tak je ve finále jen na nás, jestli se je opravdu naučíme. Neučte se slepě každou věc, kterou vám ve škole předhodí. Já mám například občas velmi dobrý pocit, když se nenaučím na test a dostanu z něj za pět. Dává mi to pocit, že mám nad sebou kontrolu a neposlouchám jen slepě rozkazy. Pokud bych se naopak na test naučil a dostal za jedna, tak bych měl v některých případech naopak spíš špatný pocit. Rozvíjejte se sami ve věcech, které vás zajímají. Učte se pro sebe, ne pro dobré známky.</Paragraph>
-                        <Paragraph bottomMargin={4}>Pokud byste ale rádi udělali ústní maturitu z češtiny, tak se na ni budete muset alespoň trochu naučit. S tím vám z části může pomoci tento web. Ústní maturita z češtiny se skládá ze tří částí: Analýza uměleckého textu, Literarněhistorický kontext a Analýza neuměleckého textu. Můžete se tu naučit na první dvě části, ale analýzu neuměleckého textu se již budete muset naučit někde jinde.</Paragraph>
-                        <Paragraph bottomMargin={4}>Vzdělávací systém se dle mého názoru potřebuje dost změnit. Namísto zbytečných věcí jako je literatura by se měla ve školách učit například první pomoc. Myslím že spoustu lidí ji neumí vůbec poskytnout. Patřím mezi ně v době tvorby tohoto webu i já a nebojím se to tu veřejně napsat.</Paragraph>
-                        <Paragraph>Pokud jsem předchozím textem nějak negativně ovlivnil váš vztah ke škole, tak se omlouvám. Potřeboval jsem to sem napsat abyste si nemysleli, že když jsem tento web vytvořil, tak mám k češtině dobrý vztah. Je to přesně naopak.</Paragraph>
+                        <Paragraph bottomMargin={4}>Tento web jsem se rozhodl vytvořit, protože jsem se potřeboval naučit na ústní maturitu z češtiny. Nechtěl jsem se ale tyto pro mě zbytečné věci učit jen kvůli maturitě. Chtěl jsem po sobě alespoň něco zanechat, když už jsem se to měl učit. Napadlo mě tedy vytvořit tento web, abych tak mohl pomoct naučit se na ústní maturitu z češtiny i jiným lidem a měl pocit že dělám něco smysluplného, než že se jen něco slepě učím, protože to po mě někdo chce.</Paragraph>
+                        <Paragraph bottomMargin={4}>Je podle mě důležité si uvědomit, že i když se nás ve škole snaží učit spoustu věcí, které vůbec nepotřebujeme znát a jsou pro nás zbytečné, tak je ve finále jen na nás, jestli se je opravdu naučíme. Neučte se slepě každou věc, kterou vám ve škole předhodí. Já jsem měl například ve škole občas dobrý pocit, když jsem se nenaučil na test a dostal z něj za pět. Pokud bych se naopak na test naučil a dostal za jedna, tak bych měl v některých případech naopak spíš špatný pocit z toho, že jen slepě poslouchám rozkazy. Rozvíjejte se sami ve věcech, které vás zajímají. Učte se pro sebe, ne pro dobré známky.</Paragraph>
+                        <Paragraph>Pokud byste ale rádi udělali ústní maturitu z češtiny, tak se na ni budete muset alespoň trochu připravit. S tím vám z části může pomoci tento web. Ústní maturita z češtiny se skládá ze tří částí: Analýza uměleckého textu, Literarněhistorický kontext a Analýza neuměleckého textu. Můžete se tu naučit na první dvě části, ale analýzu neuměleckého textu se již budete muset naučit někde jinde.</Paragraph>
                     </div>
                     <ColumnPattern/>
                 </div>
@@ -68,7 +66,7 @@ function Home() {
                     <div className='Home__section-content'>
                         <CenteredText>
                             <HeadingPrimary bottomMargin={6} asH2>Anketa</HeadingPrimary>
-                            <Paragraph bottomMargin={8}>Za mě literatura na maturitní zkoušku rozhodně nepatří. Chtěl jsem ale zjistit, co si o tom myslí jiní lidé. Proto jsem tu vytvořil anketu, ve které zaregistrovaní uživatelé mohou hlasovat, jestli si myslí že literatura na maturitu patří nebo ne.</Paragraph>
+                            <Paragraph bottomMargin={8}>Za mě literatura na maturitní zkoušku rozhodně nepatří, protože je to jen o tom si zapamatovat informace, které většina lidí po maturitě zapomene. Pokud se chcete něco naučit, tak to musíte pochopit, ne si to zapamatovat. Chtěl jsem ale zjistit, co si o tom myslí jiní lidé. Proto jsem tu vytvořil anketu, ve které zaregistrovaní uživatelé mohou hlasovat, jestli si myslí že literatura na maturitu patří nebo ne.</Paragraph>
                         </CenteredText>
                         <Survey/>
                     </div>
