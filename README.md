@@ -1,8 +1,10 @@
 # Díla na maturitu
 
-Tento projekt je web, který obsahuje materiály na ústní maturitu z češtiny. Můžete se na něj podívat __[zde](https://dila-na-maturitu.cz/)__. Rozhodl jsem se jej vytvořit, protože jsem se potřeboval naučit na ústní maturitu z češtiny. Nechtěl jsem se tyto zbytečné věci učit jen tak, proto mě napadlo vytvořit web, prostřednictvím kterého bych zároveň pomohl připravit se na ústní maturitu z češtiny i jiným lidem.
+Tento projekt byl web, který obsahoval materiály na ústní maturitu z češtiny. Dnes už je mrtvý, ale můžete si jej v případě zájmu spustit u sebe nebo jej klidně někde deploynout. Je mi to úplně jedno, klidně si jej jakkoliv upravte.
 
-Protože mi na tomto webu zas tak moc nezáleží a chtěl jsem jeho tvorbou hlavně získat zkušenosti, tak jsem se rozhodl nastavit tento repozitář jako veřejný abyste si mohli prohlédnout zdrojový kód. Můžete se podívat i na kód pro server. Věřím že pokud v mém kódu najdete nějakou slabinu týkající se zabezpečení, tak mi o ní napíšete a nebudete jí využívat. Server je naprogramovaný v NodeJS a frontend v Reactu.
+Tento projekt jsem se rozhodl vytvořit, protože jsem se potřeboval naučit na ústní maturitu z češtiny. Nechtěl jsem se tyto zbytečné věci učit jen tak, proto mě napadlo vytvořit web, prostřednictvím kterého bych zároveň pomohl připravit se na ústní maturitu z češtiny i jiným lidem.
+
+Server je naprogramovaný v NodeJS a frontend v Reactu.
 
 ---
 
