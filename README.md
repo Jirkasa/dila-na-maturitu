@@ -1,6 +1,6 @@
 # Díla na maturitu
 
-Tento projekt byl web, který obsahoval materiály na ústní maturitu z češtiny. Dnes už je mrtvý, ale můžete si jej v případě zájmu spustit u sebe nebo jej klidně někde deploynout. Je mi to úplně jedno, klidně si jej jakkoliv upravte. Všechny materiály, které na webu byly vytvořeny jsou archivovány __[zde](https://github.com/Jirkasa/dila-na-maturitu-archivovane-materialy)__
+Tento projekt byl web, který obsahoval materiály na ústní maturitu z češtiny. Dnes už je mrtvý, ale můžete si jej v případě zájmu spustit u sebe nebo jej klidně někde deploynout. Je mi to úplně jedno, klidně si jej jakkoliv upravte. Všechny materiály, které na webu byly vytvořeny jsou archivovány __[zde](https://github.com/Jirkasa/dila-na-maturitu-archivovane-materialy)__.
 
 Tento projekt jsem se rozhodl vytvořit, protože jsem se potřeboval naučit na ústní maturitu z češtiny. Nechtěl jsem se tyto zbytečné věci učit jen tak, proto mě napadlo vytvořit web, prostřednictvím kterého bych zároveň pomohl připravit se na ústní maturitu z češtiny i jiným lidem.
 
